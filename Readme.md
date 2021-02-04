@@ -1,7 +1,7 @@
 # Личный проект «Что посмотреть» [![Build status][travis-image]][travis-url]
 
-* Студент: [Анна Макаричак](https://up.htmlacademy.ru/react/6/user/470691).
-* Наставник: `Неизвестно`.
+- Студент: [Анна Макаричак](https://up.htmlacademy.ru/react/6/user/470691).
+- Наставник: [Даниил Царёв](https://htmlacademy.ru/profile/id945835).
 
 ---
 
