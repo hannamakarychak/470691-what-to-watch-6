@@ -9,7 +9,6 @@
     "build": "webpack --mode production",
     "start": "webpack-dev-server"
   },
-
   "devDependencies": {
     "eslint": "7.18",
     "eslint-config-htmlacademy": "2.1",
@@ -25,6 +24,9 @@
     "@babel/core": "7.12",
     "@babel/preset-env": "7.12",
     "@babel/preset-react": "7.12",
-    "babel-loader": "8.2"
+    "babel-loader": "8.2",
+    "prop-types": "15.7",
+    "react": "16.14",
+    "react-dom": "16.14"
   }
 }
