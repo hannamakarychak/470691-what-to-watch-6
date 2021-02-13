@@ -22,16 +22,16 @@ const App = ({movies, promoFilm}) => {
           <SignInPage />
         </Route>
         <Route exact path="/mylist">
-          <MyListPage />
+          <MyListPage movies={movies} />
         </Route>
         <Route exact path="/films/:id">
           <MoviePage />
         </Route>
         <Route exact path="/films/:id/review">
-          <AddReviewPage />
+          <AddReviewPage name={movies[1].name} />
         </Route>
         <Route exact path="/player/:id">
-          <PlayerPage />
+          <PlayerPage name={movies[0].name} />
         </Route>
         <Route
           render={() => (

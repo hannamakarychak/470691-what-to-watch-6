@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react';
+import PropTypes from 'prop-types';
 
-const PlayerPage = () => {
+const PlayerPage = (props) => {
   return (
     <Fragment>
       <div className="player">
@@ -24,7 +25,7 @@ const PlayerPage = () => {
               </svg>
               <span>Play</span>
             </button>
-            <div className="player__name">Transpotting</div>
+            <div className="player__name">{props.name}</div>
 
             <button type="button" className="player__full-screen">
               <svg viewBox="0 0 27 27" width="27" height="27">
@@ -37,6 +38,10 @@ const PlayerPage = () => {
       </div >
     </Fragment >
   );
+};
+
+PlayerPage.propTypes = {
+  name: PropTypes.string.isRequired
 };
 
 export default PlayerPage;

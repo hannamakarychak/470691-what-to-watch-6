@@ -1,9 +1,10 @@
 import React, {Fragment} from 'react';
+import PropTypes from 'prop-types';
+import {moviePropTypes} from '../../prop-types';
 
-import MovieCard from '../movie-card/movie-card';
+import MoviesList from '../movies-list/movies-list';
 
-const MyListPage = () => {
-  const cardsList = new Array(9).fill();
+const MyListPage = (props) => {
   return (
     <Fragment>
       <div className="user-page">
@@ -28,9 +29,7 @@ const MyListPage = () => {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <div className="catalog__movies-list">
-            {cardsList.map((el, index) => <MovieCard key={index} />)}
-          </div>
+          <MoviesList movies={props.movies} />
         </section>
 
         <footer className="page-footer">
@@ -49,6 +48,10 @@ const MyListPage = () => {
       </div>
     </Fragment>
   );
+};
+
+MyListPage.propTypes = {
+  movies: PropTypes.arrayOf(moviePropTypes)
 };
 
 export default MyListPage;

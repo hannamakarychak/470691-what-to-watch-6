@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {moviePropTypes} from '../../prop-types';
 
 const MoviesList = (props) => {
-  const [activeMovieCard, setActiveMovieCard] = useState(null);
+  const [, setActiveMovieCard] = useState(null); // add back activeMovieCard
 
   return (
     <Fragment>

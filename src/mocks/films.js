@@ -20,7 +20,7 @@ export default [
   },
   {
     "id": 2,
-    "name": `The Grand Budapest Hotel`,
+    "name": `The Grand`,
     "poster_image": `img/the-grand-budapest-hotel-poster.jpg`,
     "preview_image": `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
     "background_image": `img/the-grand-budapest-hotel-bg.jpg`,
