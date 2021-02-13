@@ -8,14 +8,15 @@ import MyListPage from '../my-list-page/my-list-page';
 import MoviePage from '../movie-page/movie-page';
 import AddReviewPage from '../add-review-page/add-review-page';
 import PlayerPage from '../player-page/player-page';
+import {moviePropTypes} from '../../prop-types';
 
 
-const App = ({title, genre, releaseDate}) => {
+const App = ({movies, promoFilm}) => {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <MainPage title={title} genre={genre} releaseDate={releaseDate} />
+          <MainPage movies={movies} promoFilm={promoFilm} />
         </Route>
         <Route exact path="/login">
           <SignInPage />
@@ -57,10 +58,10 @@ const App = ({title, genre, releaseDate}) => {
   );
 };
 
+
 App.propTypes = {
-  title: PropTypes.string.isRequired,
-  genre: PropTypes.string.isRequired,
-  releaseDate: PropTypes.number.isRequired
+  movies: PropTypes.arrayOf(moviePropTypes).isRequired,
+  promoFilm: moviePropTypes.isRequired,
 };
 
 export default App;

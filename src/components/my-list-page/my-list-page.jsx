@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 
-import Card from '../card/card';
+import MovieCard from '../movie-card/movie-card';
 
 const MyListPage = () => {
   const cardsList = new Array(9).fill();
@@ -29,7 +29,7 @@ const MyListPage = () => {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <div className="catalog__movies-list">
-            {cardsList.map((el, index) => <Card key={index} />)}
+            {cardsList.map((el, index) => <MovieCard key={index} />)}
           </div>
         </section>
 
