@@ -1,7 +1,12 @@
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
+import {Link, useParams} from 'react-router-dom';
+
+import Header from '../header/header';
 
 const AddReviewPage = (props) => {
+  const params = useParams();
+
   return (
     <Fragment>
       <section className="movie-card movie-card--full">
@@ -11,36 +16,21 @@ const AddReviewPage = (props) => {
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
-
-          <header className="page-header">
-            <div className="logo">
-              <a href="/" className="logo__link">
-                <span className="logo__letter logo__letter--1">W</span>
-                <span className="logo__letter logo__letter--2">T</span>
-                <span className="logo__letter logo__letter--3">W</span>
-              </a>
-            </div>
-
+          <Header isLoggedIn>
             <nav className="breadcrumbs">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">
-                  <a href="movie-page.html" className="breadcrumbs__link">{props.name}</a>
+                  <Link to={`/films/${params.id}`} className="breadcrumbs__link">{props.name}</Link>
                 </li>
                 <li className="breadcrumbs__item">
                   <a className="breadcrumbs__link">Add review</a>
                 </li>
               </ul>
             </nav>
-
-            <div className="user-block">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </div>
-          </header>
+          </Header>
 
           <div className="movie-card__poster movie-card__poster--small">
-            <img src="img/the-grand-budapest-hotel-poster.jpg" alt={props.name} width="218" height="327" />
+            <img src={props.imgSrc} alt={props.name} width="218" height="327" />
           </div>
         </div>
 
@@ -96,7 +86,8 @@ const AddReviewPage = (props) => {
 };
 
 AddReviewPage.propTypes = {
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  imgSrc: PropTypes.string.isRequired,
 };
 
 export default AddReviewPage;
