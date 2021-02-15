@@ -1,50 +1,50 @@
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 
-import Card from '../card/card';
+import {moviePropTypes} from '../../prop-types';
+import MoviesList from '../movies-list/movies-list';
+import Header from '../header/header';
+import Footer from '../footer/footer';
+import {useHistory} from 'react-router-dom';
 
-const MainPage = ({title, genre, releaseDate}) => {
-  const cardsList = new Array(20).fill(); // mock data
+const MainPage = ({promoFilm, movies}) => {
+  const history = useHistory();
+
   return (
     <Fragment>
       <section className="movie-card">
         <div className="movie-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt={title} />
+          <img src="img/bg-the-grand-budapest-hotel.jpg" alt={promoFilm.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <header className="page-header movie-card__head">
-          <div className="logo">
-            <a className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
-
-          <div className="user-block">
-            <div className="user-block__avatar">
-              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-            </div>
-          </div>
-        </header>
+        <Header isLoggedIn />
 
         <div className="movie-card__wrap">
           <div className="movie-card__info">
             <div className="movie-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={`${title} poster`} width="218" height="327" />
+              <img
+                src="img/the-grand-budapest-hotel-poster.jpg"
+                alt={`${promoFilm.name} poster`}
+                width="218"
+                height="327"
+              />
             </div>
 
             <div className="movie-card__desc">
-              <h2 className="movie-card__title">{title}</h2>
+              <h2 className="movie-card__title">{promoFilm.name}</h2>
               <p className="movie-card__meta">
-                <span className="movie-card__genre">{genre}</span>
-                <span className="movie-card__year">{releaseDate}</span>
+                <span className="movie-card__genre">{promoFilm.genre}</span>
+                <span className="movie-card__year">{promoFilm.released}</span>
               </p>
 
               <div className="movie-card__buttons">
-                <button className="btn btn--play movie-card__button" type="button">
+                <button
+                  className="btn btn--play movie-card__button"
+                  type="button"
+                  onClick={() => history.push(`/films/${promoFilm.id}/player`)}
+                >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
@@ -99,37 +99,22 @@ const MainPage = ({title, genre, releaseDate}) => {
             </li>
           </ul>
 
-          <div className="catalog__movies-list">
-            {cardsList.map((el, index) => <Card key={index} />)}
-          </div>
+          <MoviesList movies={movies} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
           </div>
         </section>
 
-        <footer className="page-footer">
-          <div className="logo">
-            <a className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </Fragment>
   );
 };
 
 MainPage.propTypes = {
-  title: PropTypes.string.isRequired,
-  genre: PropTypes.string.isRequired,
-  releaseDate: PropTypes.number.isRequired
+  movies: PropTypes.arrayOf(moviePropTypes).isRequired,
+  promoFilm: moviePropTypes.isRequired
 };
 
 export default MainPage;

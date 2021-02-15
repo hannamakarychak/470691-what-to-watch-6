@@ -1,12 +1,23 @@
 import React, {Fragment} from 'react';
+import PropTypes from 'prop-types';
+import {useHistory, useParams} from 'react-router-dom';
 
-const PlayerPage = () => {
+const PlayerPage = (props) => {
+  const params = useParams();
+  const history = useHistory();
+
   return (
     <Fragment>
       <div className="player">
         <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
 
-        <button type="button" className="player__exit">Exit</button>
+        <button
+          type="button"
+          className="player__exit"
+          onClick={() => history.push(`/films/${params.id}`)}
+        >
+          Exit
+        </button>
 
         <div className="player__controls">
           <div className="player__controls-row">
@@ -24,7 +35,7 @@ const PlayerPage = () => {
               </svg>
               <span>Play</span>
             </button>
-            <div className="player__name">Transpotting</div>
+            <div className="player__name">{props.name}</div>
 
             <button type="button" className="player__full-screen">
               <svg viewBox="0 0 27 27" width="27" height="27">
@@ -37,6 +48,10 @@ const PlayerPage = () => {
       </div >
     </Fragment >
   );
+};
+
+PlayerPage.propTypes = {
+  name: PropTypes.string.isRequired
 };
 
 export default PlayerPage;
