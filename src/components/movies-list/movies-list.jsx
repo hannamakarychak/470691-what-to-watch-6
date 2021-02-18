@@ -15,6 +15,7 @@ const MoviesList = (props) => {
             title={el.name}
             imgSrc={el.preview_image}
             id={el.id}
+            videoSrc={el.preview_video_link}
             onMouseEnter={() => setActiveMovieCard(el.id)}
             onMouseLeave={() => setActiveMovieCard(null)}
           />
