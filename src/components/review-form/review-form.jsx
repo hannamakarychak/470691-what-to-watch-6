@@ -1,8 +1,8 @@
 import React, {Fragment, useState} from 'react';
 
 const ReviewForm = () => {
-  const [, setReview] = useState(``); // add review
-  const [, setRating] = useState(null); // add review
+  const [review, setReview] = useState(``);
+  const [rating, setRating] = useState(1);
 
   const stars = new Array(10).fill().map((el, index) =>
     <Fragment key={`star-${index}`}>
@@ -11,7 +11,8 @@ const ReviewForm = () => {
         id={`star-${index}`}
         type="radio" name="rating"
         value={index + 1}
-        onClick={() => setRating(index + 1)}
+        checked={index + 1 === rating}
+        onChange={() => setRating(index + 1)}
       />
       <label className="rating__label" htmlFor={`star-${index}`}>Rating {index + 1} </label>
     </Fragment>
@@ -31,6 +32,7 @@ const ReviewForm = () => {
             className="add-review__textarea"
             name="review-text" id="review-text"
             placeholder="Review text"
+            value={review}
             onChange={(evt) => setReview(evt.target.value)}
           >
 
