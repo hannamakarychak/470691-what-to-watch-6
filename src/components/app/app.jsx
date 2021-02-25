@@ -10,14 +10,13 @@ import AddReviewPage from '../add-review-page/add-review-page';
 import PlayerPage from '../player-page/player-page';
 import {moviePropTypes} from '../../prop-types';
 import Header from '../header/header';
-import films from '../../mocks/films';
 
 const App = ({movies, promoFilm}) => {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <MainPage movies={movies} promoFilm={promoFilm} />
+          <MainPage promoFilm={promoFilm} />
         </Route>
         <Route exact path="/login">
           <SignInPage />
@@ -45,7 +44,7 @@ const App = ({movies, promoFilm}) => {
           />
         </Route>
         <Route exact path="/films/:id/review">
-          <AddReviewPage name={films[0].name} imgSrc={films[0].preview_image} />
+          <AddReviewPage name={movies[0].name} imgSrc={movies[0].preview_image} />
         </Route>
         <Route exact path="/films/:id/player">
           <PlayerPage name={movies[0].name} />

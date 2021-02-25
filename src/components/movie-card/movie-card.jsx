@@ -5,6 +5,8 @@ import Player from '../player/player';
 
 let timeoutId;
 
+const ONE_SECOND = 1000;
+
 const MovieCard = (props) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -12,7 +14,7 @@ const MovieCard = (props) => {
     props.onMouseEnter(evt);
     timeoutId = setTimeout(() => {
       setIsPlaying(true);
-    }, 1000);
+    }, ONE_SECOND);
   };
 
   const handleMouseLeave = (evt) => {
