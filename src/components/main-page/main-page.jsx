@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
 import PropTypes from 'prop-types';
 
 import {moviePropTypes} from '../../prop-types';
@@ -10,11 +10,17 @@ import {ActionCreator} from '../../store/action';
 import {connect} from 'react-redux';
 import Genres from '../genres/genres';
 import {getMoviesBySelectedGenre} from '../../utils';
+import ShowMore from '../show-more/show-more';
+
+const MOVIE_COUNT = 8;
 
 const MainPage = ({promoFilm, movies, selectedGenre, setGenre}) => {
   const history = useHistory();
+  const [movieCount, setMovieCount] = useState(MOVIE_COUNT);
 
   const moviesBySelectedGenre = getMoviesBySelectedGenre(movies, selectedGenre);
+
+  const handleShowMoreClick = () => setMovieCount((currentCount) => currentCount + MOVIE_COUNT);
 
   return (
     <Fragment>
@@ -74,11 +80,9 @@ const MainPage = ({promoFilm, movies, selectedGenre, setGenre}) => {
 
           <Genres movies={movies} onGenreSelect={setGenre} selectedGenre={selectedGenre} />
 
-          <MoviesList movies={moviesBySelectedGenre} />
+          <MoviesList movies={moviesBySelectedGenre.slice(0, movieCount)} />
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          {movieCount < moviesBySelectedGenre.length && <ShowMore onClick={handleShowMoreClick} />}
         </section>
 
         <Footer />
