@@ -1,10 +1,10 @@
-import {Genres} from "../constants";
+import {ALL_GENRES} from "../constants";
 import {ActionType} from "./action";
 
-import movies from './mocks/films';
+import movies from '../mocks/films';
 
 const initialState = {
-  genre: Genres.ALL,
+  genre: ALL_GENRES,
   list: movies
 };
 
@@ -15,15 +15,6 @@ export const reducer = (state = initialState, action) => {
         ...state,
         genre: action.payload
       };
-
-    case ActionType.GET_MOVIES_BY_GENRE:
-      return {
-        ...state,
-        list: state.genre === Genres.ALL
-          ? movies
-          : movies.filter((movie) => movie.genre === state.genre)
-      };
-
 
     default:
       return state;
