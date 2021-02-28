@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 
 import {moviePropTypes} from '../../prop-types';
@@ -11,16 +11,28 @@ import {connect} from 'react-redux';
 import Genres from '../genres/genres';
 import {getMoviesBySelectedGenre} from '../../utils';
 import ShowMore from '../show-more/show-more';
+import {fetchMoviesList} from '../../api-actions';
+import Spinner from '../spinner/spinner';
 
 const MOVIE_COUNT = 8;
 
-const MainPage = ({promoFilm, movies, selectedGenre, setGenre}) => {
+const MainPage = ({promoFilm, movies, selectedGenre, setGenre, isDataLoaded, onLoadData}) => {
   const history = useHistory();
   const [movieCount, setMovieCount] = useState(MOVIE_COUNT);
 
   const moviesBySelectedGenre = getMoviesBySelectedGenre(movies, selectedGenre);
 
   const handleShowMoreClick = () => setMovieCount((currentCount) => currentCount + MOVIE_COUNT);
+
+  useEffect(() => {
+    if (!isDataLoaded) {
+      onLoadData();
+    }
+  }, [isDataLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (!isDataLoaded) {
+    return <Spinner />;
+  }
 
   return (
     <Fragment>
@@ -97,16 +109,22 @@ MainPage.propTypes = {
   promoFilm: moviePropTypes.isRequired,
   selectedGenre: PropTypes.string,
   setGenre: PropTypes.func.isRequired,
+  isDataLoaded: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
   selectedGenre: state.genre,
-  movies: state.list
+  movies: state.list,
+  isDataLoaded: state.isDataLoaded
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setGenre(genre) {
     dispatch(ActionCreator.setGenre(genre));
+  },
+  onLoadData() {
+    dispatch(fetchMoviesList());
   }
 });
 
