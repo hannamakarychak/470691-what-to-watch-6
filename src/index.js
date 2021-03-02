@@ -10,8 +10,10 @@ import movies from './mocks/films';
 import reviews from './mocks/reviews';
 import {reducer} from './store/reducer';
 import {createApi} from './api';
+import {checkAuth} from './api-actions';
 
 const api = createApi();
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api))));
+store.dispatch(checkAuth());
 
 ReactDOM.render(<Provider store={store}><App movies={movies} promoFilm={movies[0]} reviews={reviews} /></Provider>, document.querySelector(`#root`));
