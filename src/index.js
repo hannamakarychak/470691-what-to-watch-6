@@ -11,8 +11,10 @@ import reviews from './mocks/reviews';
 import {reducer} from './store/reducer';
 import {createApi} from './api';
 import {checkAuth} from './api-actions';
+import {ActionCreator} from './store/action';
+import {AuthorizationStatus} from './constants';
 
-const api = createApi();
+const api = createApi(() => store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH)));
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api))));
 store.dispatch(checkAuth());
 
