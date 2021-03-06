@@ -11,7 +11,7 @@ import {connect} from 'react-redux';
 import Genres from '../genres/genres';
 import {getMoviesBySelectedGenre} from '../../utils';
 import ShowMore from '../show-more/show-more';
-import {fetchMoviesList, checkAuth} from '../../api-actions';
+import {fetchMoviesList} from '../../api-actions';
 import Spinner from '../spinner/spinner';
 
 const MOVIE_COUNT = 8;

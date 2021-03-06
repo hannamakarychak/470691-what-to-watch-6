@@ -5,7 +5,11 @@ const initialState = {
   genre: ALL_GENRES,
   list: [],
   isDataLoaded: false,
-  authorizationStatus: AuthorizationStatus.NO_AUTH
+  authorizationStatus: AuthorizationStatus.NO_AUTH,
+  user: {
+    email: null,
+    avatar: null
+  }
 };
 
 export const reducer = (state = initialState, action) => {
@@ -27,6 +31,15 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         authorizationStatus: action.payload
+      };
+
+    case ActionType.LOGGED_IN:
+      return {
+        ...state,
+        user: {
+          email: action.payload.email,
+          avatar: action.payload.avatar
+        }
       };
 
     default:

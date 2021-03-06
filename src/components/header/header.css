@@ -1,0 +1,8 @@
+.user-block {
+  display: flex;
+  align-items: center;
+}
+
+.user-block__avatar {
+  margin-left: 20px;
+}

@@ -9,12 +9,14 @@ export const fetchMoviesList = () => (dispatch, _getState, api) => (
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(`/login`)
     .then(({auth}) => dispatch(ActionCreator.requireAuthorization(auth)))
-  // .catch((error) => {
-  //   if (error.response) { }
-  // })
+    .catch(() => { })
 );
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(`/login`, {email, password})
-    .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
+    .then((response) => {
+      dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH));
+      dispatch(ActionCreator.loggedIn(response.data.email, response.data.avatar_url));
+    })
+    .then(() => dispatch(ActionCreator.redirectToRoute(`/`)))
 );

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import Player from '../player/player';
@@ -10,20 +10,24 @@ const ONE_SECOND = 1000;
 const MovieCard = (props) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const handleMouseEnter = (evt) => {
-    props.onMouseEnter(evt);
+  const handleMouseEnter = () => {
     timeoutId = setTimeout(() => {
       setIsPlaying(true);
     }, ONE_SECOND);
   };
 
-  const handleMouseLeave = (evt) => {
-    props.onMouseLeave(evt);
+  const handleMouseLeave = () => {
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
     setIsPlaying(false);
   };
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  });
 
   return (
     <article
@@ -56,8 +60,6 @@ MovieCard.propTypes = {
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   imgSrc: PropTypes.string.isRequired,
-  onMouseEnter: PropTypes.func.isRequired,
-  onMouseLeave: PropTypes.func.isRequired,
   videoSrc: PropTypes.string.isRequired
 };
 

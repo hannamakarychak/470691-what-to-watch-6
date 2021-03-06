@@ -1,8 +1,14 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {Link, useLocation} from 'react-router-dom';
+import {connect} from 'react-redux';
 
-const Header = (props = {isLoggedIn: false}) => {
+import {AuthorizationStatus} from '../../constants';
+import './header.css';
+
+
+const Header = (props) => {
+
   const location = useLocation();
 
   const signInLink = location.pathname !== `/login` &&
@@ -20,12 +26,15 @@ const Header = (props = {isLoggedIn: false}) => {
 
       {props.children}
 
-
       <div className="user-block">
         {props.isLoggedIn ?
-          <div className="user-block__avatar">
-            <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-          </div> :
+          <Fragment>
+            {props.userEmail}
+            <div className="user-block__avatar">
+              <img src={props.userAvatar} alt="User avatar" width="63" height="63" />
+            </div>
+          </Fragment>
+          :
           signInLink
         }
       </div>
@@ -35,9 +44,17 @@ const Header = (props = {isLoggedIn: false}) => {
 
 Header.propTypes = {
   className: PropTypes.string,
-  isLoggedIn: PropTypes.bool,
+  isLoggedIn: PropTypes.bool.isRequired,
   children: PropTypes.node,
+  userEmail: PropTypes.string,
+  userAvatar: PropTypes.string
 };
 
-export default Header;
+const mapStateToProps = (state) => ({
+  isLoggedIn: state.authorizationStatus === AuthorizationStatus.AUTH,
+  userEmail: state.user.email,
+  userAvatar: state.user.avatar
+});
+
+export default connect(mapStateToProps)(Header);
 
