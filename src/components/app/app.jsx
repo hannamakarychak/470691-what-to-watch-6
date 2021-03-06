@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {Router as BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import SignInPage from '../sign-in-page/sign-in-page';
 import MainPage from '../main-page/main-page';
@@ -10,10 +10,12 @@ import AddReviewPage from '../add-review-page/add-review-page';
 import PlayerPage from '../player-page/player-page';
 import {moviePropTypes} from '../../prop-types';
 import Header from '../header/header';
+import PrivateRoute from '../private-route/private-route';
+import browserHistory from "../../browser-history";
 
 const App = ({movies, promoFilm}) => {
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path="/">
           <MainPage promoFilm={promoFilm} />
@@ -21,9 +23,11 @@ const App = ({movies, promoFilm}) => {
         <Route exact path="/login">
           <SignInPage />
         </Route>
-        <Route exact path="/mylist">
-          <MyListPage movies={movies} />
-        </Route>
+        <PrivateRoute
+          exact
+          path="/mylist"
+          render={() => <MyListPage movies={movies} />}>
+        </PrivateRoute>
         <Route exact path="/films/:id">
           <MoviePage
             relatedMovies={movies.slice(0, 4)}
@@ -43,9 +47,11 @@ const App = ({movies, promoFilm}) => {
             isFavorite={movies[0].is_favorite}
           />
         </Route>
-        <Route exact path="/films/:id/review">
-          <AddReviewPage name={movies[0].name} imgSrc={movies[0].preview_image} />
-        </Route>
+        <PrivateRoute
+          exact
+          path="/films/:id/review"
+          render={() => <AddReviewPage name={movies[0].name} imgSrc={movies[0].preview_image} />}>
+        </PrivateRoute>
         <Route exact path="/films/:id/player">
           <PlayerPage name={movies[0].name} />
         </Route>
