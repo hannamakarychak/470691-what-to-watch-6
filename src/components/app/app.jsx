@@ -8,12 +8,12 @@ import MyListPage from '../my-list-page/my-list-page';
 import MoviePage from '../movie-page/movie-page';
 import AddReviewPage from '../add-review-page/add-review-page';
 import PlayerPage from '../player-page/player-page';
-import {moviePropTypes} from '../../prop-types';
+import {moviePropTypes, reviewPropTypes} from '../../prop-types';
 import Header from '../header/header';
 import PrivateRoute from '../private-route/private-route';
 import browserHistory from "../../browser-history";
 
-const App = ({movies, promoFilm}) => {
+const App = ({movies, promoFilm, reviews}) => {
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
@@ -45,6 +45,7 @@ const App = ({movies, promoFilm}) => {
             starring={movies[0].starring}
             runTime={movies[0].run_time}
             isFavorite={movies[0].is_favorite}
+            reviews={reviews}
           />
         </Route>
         <PrivateRoute
@@ -74,6 +75,7 @@ const App = ({movies, promoFilm}) => {
 App.propTypes = {
   movies: PropTypes.arrayOf(moviePropTypes).isRequired,
   promoFilm: moviePropTypes.isRequired,
+  reviews: PropTypes.arrayOf(reviewPropTypes).isRequired
 };
 
 export default App;

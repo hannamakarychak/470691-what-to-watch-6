@@ -5,12 +5,12 @@ import {Link, useHistory, useParams} from 'react-router-dom';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import MoviesList from '../movies-list/movies-list';
-import {moviePropTypes} from '../../prop-types';
+import {moviePropTypes, reviewPropTypes} from '../../prop-types';
+import Tabs from '../tabs/tabs';
 
 const MoviePage = (props) => {
   const params = useParams();
   const history = useHistory();
-
   return (
     <Fragment>
       <section
@@ -66,33 +66,17 @@ const MoviePage = (props) => {
             </div>
 
             <div className="movie-card__desc">
-              <nav className="movie-nav movie-card__nav">
-                <ul className="movie-nav__list">
-                  <li className="movie-nav__item movie-nav__item--active">
-                    <a href="#" className="movie-nav__link">Overview</a>
-                  </li>
-                  <li className="movie-nav__item">
-                    <a href="#" className="movie-nav__link">Details</a>
-                  </li>
-                  <li className="movie-nav__item">
-                    <a href="#" className="movie-nav__link">Reviews</a>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="movie-rating">
-                <div className="movie-rating__score">{props.rating}</div>
-                <p className="movie-rating__meta">
-                  <span className="movie-rating__level">Very good</span>
-                  <span className="movie-rating__count">{props.scoresCount}</span>
-                </p>
-              </div>
-
-              <div className="movie-card__text">
-                <p>{props.description}</p>
-                <p className="movie-card__director"><strong>Director: {props.director}</strong></p>
-                <p className="movie-card__starring"><strong>Starring: {props.starring.join(`, `)}</strong></p>
-              </div>
+              <Tabs
+                rating={props.rating}
+                scoresCount={props.scoresCount}
+                director={props.director}
+                starring={props.starring}
+                description={props.description}
+                genre={props.genre}
+                released={props.released}
+                runTime={props.runTime}
+                reviews={props.reviews}
+              />
             </div>
           </div>
         </div>
@@ -102,6 +86,7 @@ const MoviePage = (props) => {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
           <MoviesList movies={props.relatedMovies} />
+
         </section>
 
         <Footer />
@@ -109,6 +94,7 @@ const MoviePage = (props) => {
     </Fragment>
   );
 };
+
 
 MoviePage.propTypes = {
   id: PropTypes.number.isRequired,
@@ -125,7 +111,8 @@ MoviePage.propTypes = {
   starring: PropTypes.arrayOf(PropTypes.string).isRequired,
   runTime: PropTypes.number.isRequired,
   isFavorite: PropTypes.bool.isRequired,
-  relatedMovies: PropTypes.arrayOf(moviePropTypes)
+  relatedMovies: PropTypes.arrayOf(moviePropTypes),
+  reviews: PropTypes.arrayOf(reviewPropTypes).isRequired
 };
 
 export default MoviePage;
