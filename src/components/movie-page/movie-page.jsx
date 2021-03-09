@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Link, useHistory, useParams} from 'react-router-dom';
 
@@ -7,10 +7,28 @@ import Header from '../header/header';
 import MoviesList from '../movies-list/movies-list';
 import {moviePropTypes, reviewPropTypes} from '../../prop-types';
 import Tabs from '../tabs/tabs';
+import {connect} from 'react-redux';
+import {fetchMoviesList} from '../../api-actions';
+import Spinner from '../spinner/spinner';
+import {getMoviesBySelectedGenre} from '../../utils';
 
 const MoviePage = (props) => {
   const params = useParams();
   const history = useHistory();
+
+  useEffect(() => {
+    if (!props.isDataLoaded) {
+      props.onLoadData();
+    }
+  }, [props.isDataLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (!props.isDataLoaded) {
+    return <Spinner />;
+  }
+
+  const moviesBySelectedGenre = getMoviesBySelectedGenre(props.movies, props.selectedGenre);
+  const slicedMoviesBySelectedGenre = moviesBySelectedGenre.slice(0, 3);
+
   return (
     <Fragment>
       <section
@@ -85,8 +103,7 @@ const MoviePage = (props) => {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <MoviesList movies={props.relatedMovies} />
-
+          <MoviesList movies={slicedMoviesBySelectedGenre} />
         </section>
 
         <Footer />
@@ -112,8 +129,26 @@ MoviePage.propTypes = {
   runTime: PropTypes.number.isRequired,
   isFavorite: PropTypes.bool.isRequired,
   relatedMovies: PropTypes.arrayOf(moviePropTypes),
-  reviews: PropTypes.arrayOf(reviewPropTypes).isRequired
+  reviews: PropTypes.arrayOf(reviewPropTypes).isRequired,
+  isDataLoaded: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired,
+  movies: PropTypes.arrayOf(moviePropTypes).isRequired,
+  selectedGenre: PropTypes.string
 };
 
-export default MoviePage;
+const mapStateToProps = (state) => ({
+  selectedGenre: state.genre,
+  movies: state.list,
+  isDataLoaded: state.isDataLoaded
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadData() {
+    dispatch(fetchMoviesList());
+  }
+});
+
+export {MoviePage};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MoviePage);
 
