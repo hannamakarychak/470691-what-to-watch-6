@@ -26,8 +26,7 @@ const MoviePage = (props) => {
     return <Spinner />;
   }
 
-  const moviesBySelectedGenre = getMoviesBySelectedGenre(props.movies, props.selectedGenre);
-  const slicedMoviesBySelectedGenre = moviesBySelectedGenre.slice(0, 3);
+  const relatedMovies = getMoviesBySelectedGenre(props.movies, props.genre).slice(0, 3);
 
   return (
     <Fragment>
@@ -103,7 +102,7 @@ const MoviePage = (props) => {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <MoviesList movies={slicedMoviesBySelectedGenre} />
+          <MoviesList movies={relatedMovies} />
         </section>
 
         <Footer />
@@ -128,16 +127,13 @@ MoviePage.propTypes = {
   starring: PropTypes.arrayOf(PropTypes.string).isRequired,
   runTime: PropTypes.number.isRequired,
   isFavorite: PropTypes.bool.isRequired,
-  relatedMovies: PropTypes.arrayOf(moviePropTypes),
   reviews: PropTypes.arrayOf(reviewPropTypes).isRequired,
   isDataLoaded: PropTypes.bool.isRequired,
   onLoadData: PropTypes.func.isRequired,
   movies: PropTypes.arrayOf(moviePropTypes).isRequired,
-  selectedGenre: PropTypes.string
 };
 
 const mapStateToProps = (state) => ({
-  selectedGenre: state.genre,
   movies: state.list,
   isDataLoaded: state.isDataLoaded
 });

@@ -30,7 +30,6 @@ const App = ({movies, promoFilm, reviews}) => {
         </PrivateRoute>
         <Route exact path="/films/:id">
           <MoviePage
-            relatedMovies={movies.slice(0, 4)}
             id={movies[0].id}
             name={movies[0].name}
             genre={movies[0].genre}
