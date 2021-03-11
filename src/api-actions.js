@@ -9,7 +9,10 @@ export const fetchMoviesList = () => (dispatch, _getState, api) => (
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(`/login`)
-    .then(({auth}) => dispatch(ActionCreator.requireAuthorization(auth)))
+    .then((response) => {
+      dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH));
+      dispatch(ActionCreator.loggedIn(response.data.email, response.data.avatar_url));
+    })
     .catch(() => { })
 );
 

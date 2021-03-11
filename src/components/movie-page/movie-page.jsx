@@ -11,6 +11,7 @@ import {connect} from 'react-redux';
 import {fetchFilm, fetchMoviesList, fetchReviews} from '../../api-actions';
 import Spinner from '../spinner/spinner';
 import {getMoviesBySelectedGenre} from '../../utils';
+import {AuthorizationStatus} from '../../constants';
 
 const MoviePage = (props) => {
   const {
@@ -21,7 +22,8 @@ const MoviePage = (props) => {
     film,
     isMovieLoaded,
     movies,
-    reviews
+    reviews,
+    isLoggedIn
   } = props;
 
   const params = useParams();
@@ -91,7 +93,7 @@ const MoviePage = (props) => {
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link to={`/films/${currentMovieId}/review`} className="btn movie-card__button">Add review</Link>
+                {isLoggedIn && <Link to={`/films/${currentMovieId}/review`} className="btn movie-card__button">Add review</Link>}
               </div>
             </div>
           </div>
@@ -142,7 +144,8 @@ MoviePage.propTypes = {
   onLoadMovie: PropTypes.func.isRequired,
   isMovieLoaded: PropTypes.bool.isRequired,
   isReviewsLoaded: PropTypes.bool.isRequired,
-  onLoadReviews: PropTypes.func.isRequired
+  onLoadReviews: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -151,7 +154,8 @@ const mapStateToProps = (state) => ({
   film: state.film,
   isMovieLoaded: state.isMovieLoaded,
   isReviewsLoaded: state.isReviewsLoaded,
-  reviews: state.reviews
+  reviews: state.reviews,
+  isLoggedIn: state.authorizationStatus === AuthorizationStatus.AUTH
 });
 
 const mapDispatchToProps = (dispatch) => ({
