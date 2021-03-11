@@ -8,37 +8,58 @@ import MoviesList from '../movies-list/movies-list';
 import {moviePropTypes, reviewPropTypes} from '../../prop-types';
 import Tabs from '../tabs/tabs';
 import {connect} from 'react-redux';
-import {fetchMoviesList} from '../../api-actions';
+import {fetchFilm, fetchMoviesList, fetchReviews} from '../../api-actions';
 import Spinner from '../spinner/spinner';
 import {getMoviesBySelectedGenre} from '../../utils';
 
 const MoviePage = (props) => {
+  const {
+    onLoadMovie,
+    isMoviesListLoaded,
+    onLoadMoviesList,
+    onLoadReviews,
+    film,
+    isMovieLoaded,
+    movies,
+    reviews
+  } = props;
+
   const params = useParams();
+  const currentMovieId = params.id;
   const history = useHistory();
 
   useEffect(() => {
-    if (!props.isDataLoaded) {
-      props.onLoadData();
-    }
-  }, [props.isDataLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
+    onLoadMovie(currentMovieId);
+  }, [currentMovieId, onLoadMovie]);
 
-  if (!props.isDataLoaded) {
+  useEffect(() => {
+    if (!isMoviesListLoaded) {
+      onLoadMoviesList();
+    }
+  }, [isMoviesListLoaded, onLoadMoviesList]);
+
+  useEffect(() => {
+    onLoadReviews(currentMovieId);
+
+  }, [currentMovieId, onLoadReviews]);
+
+  if (!isMoviesListLoaded || !isMovieLoaded) {
     return <Spinner />;
   }
 
-  const relatedMovies = getMoviesBySelectedGenre(props.movies, props.genre).slice(0, 3);
+  const relatedMovies = getMoviesBySelectedGenre(movies, film.genre).filter(({id}) => id !== +currentMovieId).slice(0, 4);
 
   return (
     <Fragment>
       <section
         className="movie-card movie-card--full"
         style={{
-          background: props.bgColor
+          background: film.background_color
         }}
       >
         <div className="movie-card__hero">
           <div className="movie-card__bg">
-            <img src={props.bgImgSrc} alt={props.name} />
+            <img src={film.background_image} alt={film.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -47,17 +68,17 @@ const MoviePage = (props) => {
 
           <div className="movie-card__wrap">
             <div className="movie-card__desc">
-              <h2 className="movie-card__title">{props.name}</h2>
+              <h2 className="movie-card__title">{film.name}</h2>
               <p className="movie-card__meta">
-                <span className="movie-card__genre">{props.genre}</span>
-                <span className="movie-card__year">{props.released}</span>
+                <span className="movie-card__genre">{film.genre}</span>
+                <span className="movie-card__year">{film.released}</span>
               </p>
 
               <div className="movie-card__buttons">
                 <button
                   className="btn btn--play movie-card__button"
                   type="button"
-                  onClick={() => history.push(`/films/${params.id}/player`)}
+                  onClick={() => history.push(`/films/${currentMovieId}/player`)}
                 >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
@@ -66,11 +87,11 @@ const MoviePage = (props) => {
                 </button>
                 <button className="btn btn--list movie-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref={props.isFavorite ? `#in-list` : `#add`}></use>
+                    <use xlinkHref={film.isFavorite ? `#in-list` : `#add`}></use>
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link to={`/films/${params.id}/review`} className="btn movie-card__button">Add review</Link>
+                <Link to={`/films/${currentMovieId}/review`} className="btn movie-card__button">Add review</Link>
               </div>
             </div>
           </div>
@@ -79,20 +100,20 @@ const MoviePage = (props) => {
         <div className="movie-card__wrap movie-card__translate-top">
           <div className="movie-card__info">
             <div className="movie-card__poster movie-card__poster--big">
-              <img src={props.imgSrc} alt={props.name} width="218" height="327" />
+              <img src={film.poster_image} alt={film.name} width="218" height="327" />
             </div>
 
             <div className="movie-card__desc">
               <Tabs
-                rating={props.rating}
-                scoresCount={props.scoresCount}
-                director={props.director}
-                starring={props.starring}
-                description={props.description}
-                genre={props.genre}
-                released={props.released}
-                runTime={props.runTime}
-                reviews={props.reviews}
+                rating={film.rating}
+                scoresCount={film.scores_count}
+                director={film.director}
+                starring={film.starring}
+                description={film.description}
+                genre={film.genre}
+                released={film.released}
+                runTime={film.run_time}
+                reviews={reviews}
               />
             </div>
           </div>
@@ -100,10 +121,10 @@ const MoviePage = (props) => {
       </section>
 
       <div className="page-content">
-        <section className="catalog catalog--like-this">
+        {relatedMovies.length > 0 && <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
           <MoviesList movies={relatedMovies} />
-        </section>
+        </section>}
 
         <Footer />
       </div>
@@ -113,34 +134,35 @@ const MoviePage = (props) => {
 
 
 MoviePage.propTypes = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  genre: PropTypes.string.isRequired,
-  released: PropTypes.number.isRequired,
-  imgSrc: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired,
-  scoresCount: PropTypes.number.isRequired,
-  bgImgSrc: PropTypes.string.isRequired,
-  bgColor: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  director: PropTypes.string.isRequired,
-  starring: PropTypes.arrayOf(PropTypes.string).isRequired,
-  runTime: PropTypes.number.isRequired,
-  isFavorite: PropTypes.bool.isRequired,
+  film: moviePropTypes,
   reviews: PropTypes.arrayOf(reviewPropTypes).isRequired,
-  isDataLoaded: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired,
+  isMoviesListLoaded: PropTypes.bool.isRequired,
+  onLoadMoviesList: PropTypes.func.isRequired,
   movies: PropTypes.arrayOf(moviePropTypes).isRequired,
+  onLoadMovie: PropTypes.func.isRequired,
+  isMovieLoaded: PropTypes.bool.isRequired,
+  isReviewsLoaded: PropTypes.bool.isRequired,
+  onLoadReviews: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
   movies: state.list,
-  isDataLoaded: state.isDataLoaded
+  isMoviesListLoaded: state.isMoviesListLoaded,
+  film: state.film,
+  isMovieLoaded: state.isMovieLoaded,
+  isReviewsLoaded: state.isReviewsLoaded,
+  reviews: state.reviews
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onLoadData() {
+  onLoadMoviesList() {
     dispatch(fetchMoviesList());
+  },
+  onLoadMovie(id) {
+    dispatch(fetchFilm(id));
+  },
+  onLoadReviews(reviews) {
+    dispatch(fetchReviews(reviews));
   }
 });
 

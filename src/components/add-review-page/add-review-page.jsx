@@ -17,7 +17,7 @@ const AddReviewPage = (props) => {
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
-          <Header isLoggedIn>
+          <Header>
             <nav className="breadcrumbs">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">

@@ -16,8 +16,7 @@ import {AuthorizationStatus} from './constants';
 import {redirect} from './store/middlewares/redirect';
 
 const api = createApi(() => store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH)));
-const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api)), applyMiddleware(redirect)
-));
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api)), applyMiddleware(redirect)));
 store.dispatch(checkAuth());
 
 ReactDOM.render(<Provider store={store}><App movies={movies} promoFilm={movies[0]} reviews={reviews} /></Provider>, document.querySelector(`#root`));

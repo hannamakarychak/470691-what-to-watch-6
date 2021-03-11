@@ -1,5 +1,6 @@
 import {ActionCreator} from "./store/action";
 import {AuthorizationStatus} from "./constants";
+import browserHistory from "./browser-history";
 
 export const fetchMoviesList = () => (dispatch, _getState, api) => (
   api.get(`/films`)
@@ -19,4 +20,20 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
       dispatch(ActionCreator.loggedIn(response.data.email, response.data.avatar_url));
     })
     .then(() => dispatch(ActionCreator.redirectToRoute(`/`)))
+);
+
+export const fetchFilm = (id) => (dispatch, _getState, api) => (
+  api.get(`/films/${id}`)
+    .then(({data}) => dispatch(ActionCreator.getFilm(data)))
+    .catch(({response}) => {
+      if (response.status === 404) {
+        browserHistory.push(`/404`);
+      }
+    })
+);
+
+export const fetchReviews = (id) => (dispatch, _getState, api) => (
+  api.get(`comments/${id}`)
+    .then(({data}) => dispatch(ActionCreator.getReviews(data)))
+    .catch(() => { })
 );
