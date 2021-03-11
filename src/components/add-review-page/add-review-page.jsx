@@ -4,9 +4,15 @@ import {Link, useParams} from 'react-router-dom';
 
 import Header from '../header/header';
 import ReviewForm from '../review-form/review-form';
+import {addReview} from '../../api-actions';
+import {connect} from 'react-redux';
 
 const AddReviewPage = (props) => {
   const params = useParams();
+
+  const handleSubmitClick = (rating, review) => {
+    props.onSubmit(params.id, rating, review);
+  };
 
   return (
     <Fragment>
@@ -35,7 +41,7 @@ const AddReviewPage = (props) => {
           </div>
         </div>
 
-        <ReviewForm />
+        <ReviewForm onSubmit={handleSubmitClick} />
 
       </section>
     </Fragment>
@@ -45,7 +51,14 @@ const AddReviewPage = (props) => {
 AddReviewPage.propTypes = {
   name: PropTypes.string.isRequired,
   imgSrc: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func
 };
 
-export default AddReviewPage;
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit(movieId, rating, review) {
+    dispatch(addReview(movieId, rating, review));
+  }
+});
+
+export default connect(null, mapDispatchToProps)(AddReviewPage);
 
