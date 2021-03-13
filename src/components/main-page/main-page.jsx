@@ -13,6 +13,7 @@ import {getMoviesBySelectedGenre} from '../../utils';
 import ShowMore from '../show-more/show-more';
 import {fetchMoviesList} from '../../api-actions';
 import Spinner from '../spinner/spinner';
+import {getGenre, getList, getLoadedStatus} from '../../store/all-movies/selectors';
 
 const MOVIE_COUNT = 8;
 
@@ -114,9 +115,9 @@ MainPage.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  selectedGenre: state.ALL_MOVIES.genre,
-  movies: state.ALL_MOVIES.list,
-  isLoaded: state.ALL_MOVIES.isLoaded
+  selectedGenre: getGenre(state),
+  movies: getList(state),
+  isLoaded: getLoadedStatus(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
