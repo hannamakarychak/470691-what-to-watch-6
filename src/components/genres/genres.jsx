@@ -1,14 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {moviePropTypes} from '../../prop-types';
-import {getUniqueGenres} from '../../utils';
-
 const Genres = (props) => {
-  const genres = getUniqueGenres(props.movies);
   return (
     <ul className="catalog__genres-list">
-      {genres.map((genre) => (
+      {props.genres.map((genre) => (
         <li
           key={genre}
           onClick={() => props.onGenreSelect(genre)}
@@ -22,7 +18,7 @@ const Genres = (props) => {
 };
 
 Genres.propTypes = {
-  movies: PropTypes.arrayOf(moviePropTypes).isRequired,
+  genres: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedGenre: PropTypes.string.isRequired,
   onGenreSelect: PropTypes.func
 };

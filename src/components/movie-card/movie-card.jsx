@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import Player from '../player/player';
 
-let timeoutId;
-
 const ONE_SECOND = 1000;
 
 const MovieCard = (props) => {
+  let timeoutId;
   const [isPlaying, setIsPlaying] = useState(false);
 
   const handleMouseEnter = () => {

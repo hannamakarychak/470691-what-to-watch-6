@@ -10,8 +10,10 @@ import Tabs from '../tabs/tabs';
 import {connect} from 'react-redux';
 import {fetchFilm, fetchMoviesList, fetchReviews} from '../../api-actions';
 import Spinner from '../spinner/spinner';
-import {getMoviesBySelectedGenre} from '../../utils';
-import {AuthorizationStatus} from '../../constants';
+import {allMoviesLoadedSelector} from '../../store/all-movies/selectors';
+import {selectedMovieSelector, selectedMovieLoadedSelector, relatedMoviesSelector} from '../../store/selected-movie/selectors';
+import {reviewsLoadedSelector, reviewsSelector} from '../../store/reviews/selectors';
+import {isUserLoggedInSelector} from '../../store/user/selectors';
 
 const MoviePage = (props) => {
   const {
@@ -21,9 +23,10 @@ const MoviePage = (props) => {
     onLoadReviews,
     movie,
     isMovieLoaded,
-    movies,
+    relatedMovies,
     reviews,
-    isLoggedIn
+    isLoggedIn,
+    isReviewsLoaded
   } = props;
 
   const params = useParams();
@@ -45,11 +48,9 @@ const MoviePage = (props) => {
 
   }, [currentMovieId, onLoadReviews]);
 
-  if (!isMoviesListLoaded || !isMovieLoaded) {
+  if (!isMoviesListLoaded || !isMovieLoaded || !isReviewsLoaded) {
     return <Spinner />;
   }
-
-  const relatedMovies = getMoviesBySelectedGenre(movies, movie.genre).filter(({id}) => id !== +currentMovieId).slice(0, 4);
 
   return (
     <Fragment>
@@ -140,7 +141,7 @@ MoviePage.propTypes = {
   reviews: PropTypes.arrayOf(reviewPropTypes).isRequired,
   isMoviesListLoaded: PropTypes.bool.isRequired,
   onLoadMoviesList: PropTypes.func.isRequired,
-  movies: PropTypes.arrayOf(moviePropTypes).isRequired,
+  relatedMovies: PropTypes.arrayOf(moviePropTypes).isRequired,
   onLoadMovie: PropTypes.func.isRequired,
   isMovieLoaded: PropTypes.bool.isRequired,
   isReviewsLoaded: PropTypes.bool.isRequired,
@@ -149,13 +150,13 @@ MoviePage.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  movies: state.ALL_MOVIES.list,
-  isMoviesListLoaded: state.ALL_MOVIES.isLoaded,
-  movie: state.SELECTED_MOVIE.movie,
-  isMovieLoaded: state.SELECTED_MOVIE.isLoaded,
-  reviews: state.REVIEWS.list,
-  isReviewsLoaded: state.REVIEWS.isLoaded,
-  isLoggedIn: state.USER.authorizationStatus === AuthorizationStatus.AUTH
+  relatedMovies: relatedMoviesSelector(state),
+  isMoviesListLoaded: allMoviesLoadedSelector(state),
+  movie: selectedMovieSelector(state),
+  isMovieLoaded: selectedMovieLoadedSelector(state),
+  reviews: reviewsSelector(state),
+  isReviewsLoaded: reviewsLoadedSelector(state),
+  isLoggedIn: isUserLoggedInSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
