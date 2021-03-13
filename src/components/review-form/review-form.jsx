@@ -1,8 +1,14 @@
 import React, {Fragment, useState} from 'react';
+import PropTypes from 'prop-types';
 
-const ReviewForm = () => {
+const ReviewForm = (props) => {
   const [review, setReview] = useState(``);
   const [rating, setRating] = useState(1);
+
+  const handleSubmitClick = (evt) => {
+    evt.preventDefault();
+    props.onSubmit(rating, review);
+  };
 
   const stars = new Array(10).fill().map((el, index) =>
     <Fragment key={`star-${index}`}>
@@ -38,13 +44,17 @@ const ReviewForm = () => {
 
           </textarea>
           <div className="add-review__submit">
-            <button className="add-review__btn" type="submit">Post</button>
+            <button className="add-review__btn" type="submit" onClick={handleSubmitClick}>Post</button>
           </div>
 
         </div>
       </form>
     </div>
   );
+};
+
+ReviewForm.propTypes = {
+  onSubmit: PropTypes.func
 };
 
 export default ReviewForm;

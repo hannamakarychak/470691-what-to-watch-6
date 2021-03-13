@@ -4,12 +4,16 @@ import {ActionType} from "./action";
 const initialState = {
   genre: ALL_GENRES,
   list: [],
-  isDataLoaded: false,
+  isMoviesListLoaded: false,
   authorizationStatus: AuthorizationStatus.NO_AUTH,
   user: {
     email: null,
     avatar: null
-  }
+  },
+  film: null,
+  isMovieLoaded: false,
+  isReviewsLoaded: false,
+  reviews: []
 };
 
 export const reducer = (state = initialState, action) => {
@@ -23,7 +27,7 @@ export const reducer = (state = initialState, action) => {
     case ActionType.GET_ALL_MOVIES:
       return {
         ...state,
-        isDataLoaded: true,
+        isMoviesListLoaded: true,
         list: action.payload
       };
 
@@ -40,6 +44,20 @@ export const reducer = (state = initialState, action) => {
           email: action.payload.email,
           avatar: action.payload.avatar
         }
+      };
+
+    case ActionType.GET_FILM:
+      return {
+        ...state,
+        isMovieLoaded: true,
+        film: action.payload
+      };
+
+    case ActionType.GET_REVIEWS:
+      return {
+        ...state,
+        isReviewsLoaded: true,
+        reviews: action.payload
       };
 
     default:

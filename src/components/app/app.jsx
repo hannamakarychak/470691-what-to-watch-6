@@ -8,12 +8,12 @@ import MyListPage from '../my-list-page/my-list-page';
 import MoviePage from '../movie-page/movie-page';
 import AddReviewPage from '../add-review-page/add-review-page';
 import PlayerPage from '../player-page/player-page';
-import {moviePropTypes, reviewPropTypes} from '../../prop-types';
+import {moviePropTypes} from '../../prop-types';
 import Header from '../header/header';
 import PrivateRoute from '../private-route/private-route';
 import browserHistory from "../../browser-history";
 
-const App = ({movies, promoFilm, reviews}) => {
+const App = ({movies, promoFilm}) => {
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
@@ -29,23 +29,7 @@ const App = ({movies, promoFilm, reviews}) => {
           render={() => <MyListPage movies={movies} />}>
         </PrivateRoute>
         <Route exact path="/films/:id">
-          <MoviePage
-            id={movies[0].id}
-            name={movies[0].name}
-            genre={movies[0].genre}
-            released={movies[0].released}
-            imgSrc={movies[0].poster_image}
-            rating={movies[0].rating}
-            scoresCount={movies[0].scores_count}
-            bgImgSrc={movies[0].background_image}
-            bgColor={movies[0].background_color}
-            description={movies[0].description}
-            director={movies[0].director}
-            starring={movies[0].starring}
-            runTime={movies[0].run_time}
-            isFavorite={movies[0].is_favorite}
-            reviews={reviews}
-          />
+          <MoviePage />
         </Route>
         <PrivateRoute
           exact
@@ -73,8 +57,7 @@ const App = ({movies, promoFilm, reviews}) => {
 
 App.propTypes = {
   movies: PropTypes.arrayOf(moviePropTypes).isRequired,
-  promoFilm: moviePropTypes.isRequired,
-  reviews: PropTypes.arrayOf(reviewPropTypes).isRequired
+  promoFilm: moviePropTypes.isRequired
 };
 
 export default App;

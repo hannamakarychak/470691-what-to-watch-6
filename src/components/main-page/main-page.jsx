@@ -16,7 +16,7 @@ import Spinner from '../spinner/spinner';
 
 const MOVIE_COUNT = 8;
 
-const MainPage = ({promoFilm, movies, selectedGenre, setGenre, isDataLoaded, onLoadData}) => {
+const MainPage = ({promoFilm, movies, selectedGenre, setGenre, isMoviesListLoaded, onLoadMoviesList}) => {
   const history = useHistory();
   const [movieCount, setMovieCount] = useState(MOVIE_COUNT);
 
@@ -25,12 +25,12 @@ const MainPage = ({promoFilm, movies, selectedGenre, setGenre, isDataLoaded, onL
   const handleShowMoreClick = () => setMovieCount((currentCount) => currentCount + MOVIE_COUNT);
 
   useEffect(() => {
-    if (!isDataLoaded) {
-      onLoadData();
+    if (!isMoviesListLoaded) {
+      onLoadMoviesList();
     }
-  }, [isDataLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isMoviesListLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!isDataLoaded) {
+  if (!isMoviesListLoaded) {
     return <Spinner />;
   }
 
@@ -43,7 +43,7 @@ const MainPage = ({promoFilm, movies, selectedGenre, setGenre, isDataLoaded, onL
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <Header isLoggedIn />
+        <Header />
 
         <div className="movie-card__wrap">
           <div className="movie-card__info">
@@ -109,25 +109,24 @@ MainPage.propTypes = {
   promoFilm: moviePropTypes.isRequired,
   selectedGenre: PropTypes.string,
   setGenre: PropTypes.func.isRequired,
-  isDataLoaded: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired
+  isMoviesListLoaded: PropTypes.bool.isRequired,
+  onLoadMoviesList: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
   selectedGenre: state.genre,
   movies: state.list,
-  isDataLoaded: state.isDataLoaded
+  isMoviesListLoaded: state.isMoviesListLoaded
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setGenre(genre) {
     dispatch(ActionCreator.setGenre(genre));
   },
-  onLoadData() {
+  onLoadMoviesList() {
     dispatch(fetchMoviesList());
   }
 });
 
 
-export {MainPage};
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
