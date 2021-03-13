@@ -6,7 +6,7 @@ import MoviesList from '../movies-list/movies-list';
 import Header from '../header/header';
 import Footer from '../footer/footer';
 import {useHistory} from 'react-router-dom';
-import {ActionCreator} from '../../store/action';
+import {setGenre} from '../../store/action';
 import {connect} from 'react-redux';
 import Genres from '../genres/genres';
 import {getMoviesBySelectedGenre} from '../../utils';
@@ -16,7 +16,7 @@ import Spinner from '../spinner/spinner';
 
 const MOVIE_COUNT = 8;
 
-const MainPage = ({promoFilm, movies, selectedGenre, setGenre, isMoviesListLoaded, onLoadMoviesList}) => {
+const MainPage = ({promoFilm, movies, selectedGenre, changeGenre, isLoaded, onLoadMoviesList}) => {
   const history = useHistory();
   const [movieCount, setMovieCount] = useState(MOVIE_COUNT);
 
@@ -25,12 +25,12 @@ const MainPage = ({promoFilm, movies, selectedGenre, setGenre, isMoviesListLoade
   const handleShowMoreClick = () => setMovieCount((currentCount) => currentCount + MOVIE_COUNT);
 
   useEffect(() => {
-    if (!isMoviesListLoaded) {
+    if (!isLoaded) {
       onLoadMoviesList();
     }
-  }, [isMoviesListLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!isMoviesListLoaded) {
+  if (!isLoaded) {
     return <Spinner />;
   }
 
@@ -90,7 +90,7 @@ const MainPage = ({promoFilm, movies, selectedGenre, setGenre, isMoviesListLoade
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <Genres movies={movies} onGenreSelect={setGenre} selectedGenre={selectedGenre} />
+          <Genres movies={movies} onGenreSelect={changeGenre} selectedGenre={selectedGenre} />
 
           <MoviesList movies={moviesBySelectedGenre.slice(0, movieCount)} />
 
@@ -108,20 +108,20 @@ MainPage.propTypes = {
   movies: PropTypes.arrayOf(moviePropTypes).isRequired,
   promoFilm: moviePropTypes.isRequired,
   selectedGenre: PropTypes.string,
-  setGenre: PropTypes.func.isRequired,
-  isMoviesListLoaded: PropTypes.bool.isRequired,
+  changeGenre: PropTypes.func.isRequired,
+  isLoaded: PropTypes.bool.isRequired,
   onLoadMoviesList: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  selectedGenre: state.genre,
-  movies: state.list,
-  isMoviesListLoaded: state.isMoviesListLoaded
+  selectedGenre: state.ALL_MOVIES.genre,
+  movies: state.ALL_MOVIES.list,
+  isLoaded: state.ALL_MOVIES.isLoaded
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setGenre(genre) {
-    dispatch(ActionCreator.setGenre(genre));
+  changeGenre(genre) {
+    dispatch(setGenre(genre));
   },
   onLoadMoviesList() {
     dispatch(fetchMoviesList());

@@ -8,42 +8,42 @@ export const ActionType = {
   GET_REVIEWS: `film/getReviews`
 };
 
-export const ActionCreator = {
-  setGenre: (genre) => ({
-    type: ActionType.SET_GENRE,
-    payload: genre
-  }),
 
-  getAllMovies: (data) => ({
-    type: ActionType.GET_ALL_MOVIES,
-    payload: data
-  }),
+export const setGenre = (genre) => ({
+  type: ActionType.SET_GENRE,
+  payload: genre
+});
 
-  requireAuthorization: (status) => ({
-    type: ActionType.REQUIRED_AUTHORIZATION,
-    payload: status,
-  }),
+export const getAllMovies = (data) => ({
+  type: ActionType.GET_ALL_MOVIES,
+  payload: data
+});
 
-  loggedIn: (email, avatar) => ({
-    type: ActionType.LOGGED_IN,
-    payload: {
-      email,
-      avatar
-    }
-  }),
+export const requireAuthorization = (status) => ({
+  type: ActionType.REQUIRED_AUTHORIZATION,
+  payload: status,
+});
 
-  redirectToRoute: (url) => ({
-    type: ActionType.REDIRECT_TO_ROUTE,
-    payload: url
-  }),
+export const loggedIn = (email, avatar) => ({
+  type: ActionType.LOGGED_IN,
+  payload: {
+    email,
+    avatar
+  }
+});
 
-  getFilm: (film) => ({
-    type: ActionType.GET_FILM,
-    payload: film
-  }),
+export const redirectToRoute = (url) => ({
+  type: ActionType.REDIRECT_TO_ROUTE,
+  payload: url
+});
 
-  getReviews: (reviews) => ({
-    type: ActionType.GET_REVIEWS,
-    payload: reviews
-  })
-};
+export const getFilm = (film) => ({
+  type: ActionType.GET_FILM,
+  payload: film
+});
+
+export const getReviews = (reviews) => ({
+  type: ActionType.GET_REVIEWS,
+  payload: reviews
+});
+

@@ -8,7 +8,6 @@ import './header.css';
 
 
 const Header = (props) => {
-
   const location = useLocation();
 
   const signInLink = location.pathname !== `/login` &&
@@ -51,9 +50,9 @@ Header.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  isLoggedIn: state.authorizationStatus === AuthorizationStatus.AUTH,
-  userEmail: state.user.email,
-  userAvatar: state.user.avatar
+  isLoggedIn: state.USER.authorizationStatus === AuthorizationStatus.AUTH,
+  userEmail: state.USER.email,
+  userAvatar: state.USER.avatar
 });
 
 export default connect(mapStateToProps)(Header);
