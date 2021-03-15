@@ -1,36 +1,26 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import PropTypes from 'prop-types';
 
 import {moviePropTypes} from '../../prop-types';
-import MoviesList from '../movies-list/movies-list';
 import Header from '../header/header';
 import Footer from '../footer/footer';
 import {useHistory} from 'react-router-dom';
-import {ActionCreator} from '../../store/action';
 import {connect} from 'react-redux';
-import Genres from '../genres/genres';
-import {getMoviesBySelectedGenre} from '../../utils';
-import ShowMore from '../show-more/show-more';
 import {fetchMoviesList} from '../../api-actions';
 import Spinner from '../spinner/spinner';
+import {allMoviesLoadedSelector} from '../../store/all-movies/selectors';
+import Catalog from './../catalog/catalog';
 
-const MOVIE_COUNT = 8;
-
-const MainPage = ({promoFilm, movies, selectedGenre, setGenre, isMoviesListLoaded, onLoadMoviesList}) => {
+const MainPage = ({promoFilm, isLoaded, onLoadMoviesList}) => {
   const history = useHistory();
-  const [movieCount, setMovieCount] = useState(MOVIE_COUNT);
-
-  const moviesBySelectedGenre = getMoviesBySelectedGenre(movies, selectedGenre);
-
-  const handleShowMoreClick = () => setMovieCount((currentCount) => currentCount + MOVIE_COUNT);
 
   useEffect(() => {
-    if (!isMoviesListLoaded) {
+    if (!isLoaded) {
       onLoadMoviesList();
     }
-  }, [isMoviesListLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!isMoviesListLoaded) {
+  if (!isLoaded) {
     return <Spinner />;
   }
 
@@ -87,15 +77,7 @@ const MainPage = ({promoFilm, movies, selectedGenre, setGenre, isMoviesListLoade
       </section >
 
       <div className="page-content">
-        <section className="catalog">
-          <h2 className="catalog__title visually-hidden">Catalog</h2>
-
-          <Genres movies={movies} onGenreSelect={setGenre} selectedGenre={selectedGenre} />
-
-          <MoviesList movies={moviesBySelectedGenre.slice(0, movieCount)} />
-
-          {movieCount < moviesBySelectedGenre.length && <ShowMore onClick={handleShowMoreClick} />}
-        </section>
+        <Catalog />
 
         <Footer />
       </div>
@@ -105,24 +87,16 @@ const MainPage = ({promoFilm, movies, selectedGenre, setGenre, isMoviesListLoade
 
 
 MainPage.propTypes = {
-  movies: PropTypes.arrayOf(moviePropTypes).isRequired,
   promoFilm: moviePropTypes.isRequired,
-  selectedGenre: PropTypes.string,
-  setGenre: PropTypes.func.isRequired,
-  isMoviesListLoaded: PropTypes.bool.isRequired,
-  onLoadMoviesList: PropTypes.func.isRequired
+  isLoaded: PropTypes.bool.isRequired,
+  onLoadMoviesList: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  selectedGenre: state.genre,
-  movies: state.list,
-  isMoviesListLoaded: state.isMoviesListLoaded
+  isLoaded: allMoviesLoadedSelector(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setGenre(genre) {
-    dispatch(ActionCreator.setGenre(genre));
-  },
   onLoadMoviesList() {
     dispatch(fetchMoviesList());
   }

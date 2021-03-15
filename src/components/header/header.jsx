@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import {Link, useLocation} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-import {AuthorizationStatus} from '../../constants';
 import './header.css';
+import {isUserLoggedInSelector, userAvatarSelector, userEmailSelector} from '../../store/user/selectors';
 
 
 const Header = (props) => {
-
   const location = useLocation();
 
   const signInLink = location.pathname !== `/login` &&
@@ -51,9 +50,9 @@ Header.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  isLoggedIn: state.authorizationStatus === AuthorizationStatus.AUTH,
-  userEmail: state.user.email,
-  userAvatar: state.user.avatar
+  isLoggedIn: isUserLoggedInSelector(state),
+  userEmail: userEmailSelector(state),
+  userAvatar: userAvatarSelector(state)
 });
 
 export default connect(mapStateToProps)(Header);
