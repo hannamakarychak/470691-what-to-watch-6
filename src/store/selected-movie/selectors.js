@@ -14,3 +14,18 @@ export const relatedMoviesSelector = createSelector(
       ? getMoviesBySelectedGenre(allMovies, selectedMovie.genre).filter(({id}) => id !== +selectedMovie.id).slice(0, 4)
       : []
 );
+
+export const selectedMovieNameSelector = createSelector(
+  selectedMovieSelector,
+  (movie) => movie ? movie.name : null
+);
+
+export const selectedMovieVideoSrcSelector = createSelector(
+  selectedMovieSelector,
+  (movie) => movie ? movie.video_link : null
+);
+
+export const selectedMoviePreviewImgSrcSelector = createSelector(
+  selectedMovieSelector,
+  (movie) => movie ? movie.preview_image : null
+);

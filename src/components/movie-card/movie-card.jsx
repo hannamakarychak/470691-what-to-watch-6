@@ -34,24 +34,26 @@ const MovieCard = (props) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="small-movie-card__image">
-        <Player
-          posterSrc={props.imgSrc}
-          videoSrc={props.videoSrc}
-          style={{
-            verticalAlign: `top`,
-            width: `100%`,
-            height: `100%`,
-            objectFit: `cover`
-          }}
-          isPlaying={isPlaying}
-          isMuted
-        />
-      </div>
-      <h3 className="small-movie-card__title">
-        <Link to={`/films/${props.id}`} className="small-movie-card__link" >{props.title}</Link>
-      </h3>
-    </article>
+      <Link to={`/films/${props.id}`} className="small-movie-card__link" >
+        <div className="small-movie-card__image">
+          <Player
+            posterSrc={props.imgSrc}
+            videoSrc={props.videoSrc}
+            style={{
+              verticalAlign: `top`,
+              width: `100%`,
+              height: `100%`,
+              objectFit: `cover`
+            }}
+            isPlaying={isPlaying}
+            isMuted
+          />
+        </div>
+        <h3 className="small-movie-card__title">
+          {props.title}
+        </h3>
+      </Link>
+    </article >
   );
 };
 

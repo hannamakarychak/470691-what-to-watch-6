@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {Link, useHistory, useParams} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 
 import Footer from '../footer/footer';
 import Header from '../header/header';
@@ -31,7 +31,6 @@ const MoviePage = (props) => {
 
   const params = useParams();
   const currentMovieId = params.id;
-  const history = useHistory();
 
   useEffect(() => {
     onLoadMovie(currentMovieId);
@@ -78,16 +77,15 @@ const MoviePage = (props) => {
               </p>
 
               <div className="movie-card__buttons">
-                <button
+                <Link
+                  to={`/player/${currentMovieId}`}
                   className="btn btn--play movie-card__button"
-                  type="button"
-                  onClick={() => history.push(`/films/${currentMovieId}/player`)}
                 >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
-                </button>
+                </Link>
                 <button className="btn btn--list movie-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref={movie.isFavorite ? `#in-list` : `#add`}></use>
@@ -170,8 +168,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchReviews(reviews));
   }
 });
-
-export {MoviePage};
 
 export default connect(mapStateToProps, mapDispatchToProps)(MoviePage);
 

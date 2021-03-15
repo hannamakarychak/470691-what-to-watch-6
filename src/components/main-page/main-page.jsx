@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {moviePropTypes} from '../../prop-types';
 import Header from '../header/header';
 import Footer from '../footer/footer';
-import {useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {fetchMoviesList} from '../../api-actions';
 import Spinner from '../spinner/spinner';
@@ -12,8 +12,6 @@ import {allMoviesLoadedSelector} from '../../store/all-movies/selectors';
 import Catalog from './../catalog/catalog';
 
 const MainPage = ({promoFilm, isLoaded, onLoadMoviesList}) => {
-  const history = useHistory();
-
   useEffect(() => {
     if (!isLoaded) {
       onLoadMoviesList();
@@ -54,16 +52,18 @@ const MainPage = ({promoFilm, isLoaded, onLoadMoviesList}) => {
               </p>
 
               <div className="movie-card__buttons">
-                <button
+                <Link
                   className="btn btn--play movie-card__button"
-                  type="button"
-                  onClick={() => history.push(`/films/${promoFilm.id}/player`)}
+                  to={{
+                    pathname: `/player/${promoFilm.id}`,
+                    isPromo: true
+                  }}
                 >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
-                </button>
+                </Link>
                 <button className="btn btn--list movie-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>

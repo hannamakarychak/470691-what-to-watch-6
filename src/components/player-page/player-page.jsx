@@ -1,15 +1,32 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {useHistory, useParams} from 'react-router-dom';
+import {connect} from 'react-redux';
+
+import {
+  selectedMovieLoadedSelector,
+  selectedMovieNameSelector,
+  selectedMovieVideoSrcSelector,
+  selectedMoviePreviewImgSrcSelector
+} from '../../store/selected-movie/selectors';
+import {fetchFilm} from '../../api-actions';
 
 const PlayerPage = (props) => {
+  const {isMovieLoaded, onLoadMovie, name, videoSrc, previewImgSrc} = props;
   const params = useParams();
   const history = useHistory();
+  const currentMovieId = params.id;
+
+  useEffect(() => {
+    if (!isMovieLoaded) {
+      onLoadMovie(currentMovieId);
+    }
+  }, [currentMovieId, onLoadMovie, isMovieLoaded]);
 
   return (
     <Fragment>
       <div className="player">
-        <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+        <video src={videoSrc} className="player__video" poster={previewImgSrc} />
 
         <button
           type="button"
@@ -35,7 +52,7 @@ const PlayerPage = (props) => {
               </svg>
               <span>Play</span>
             </button>
-            <div className="player__name">{props.name}</div>
+            <div className="player__name">{name}</div>
 
             <button type="button" className="player__full-screen">
               <svg viewBox="0 0 27 27" width="27" height="27">
@@ -51,8 +68,25 @@ const PlayerPage = (props) => {
 };
 
 PlayerPage.propTypes = {
-  name: PropTypes.string.isRequired
+  name: PropTypes.string,
+  isMovieLoaded: PropTypes.bool.isRequired,
+  onLoadMovie: PropTypes.func.isRequired,
+  videoSrc: PropTypes.string,
+  previewImgSrc: PropTypes.string
 };
 
-export default PlayerPage;
+const mapStateToProps = (state) => ({
+  name: selectedMovieNameSelector(state),
+  isMovieLoaded: selectedMovieLoadedSelector(state),
+  videoSrc: selectedMovieVideoSrcSelector(state),
+  previewImgSrc: selectedMoviePreviewImgSrcSelector(state)
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadMovie(id) {
+    dispatch(fetchFilm(id));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlayerPage);
 
