@@ -26,15 +26,14 @@ const Header = (props) => {
       {props.children}
 
       <div className="user-block">
-        {props.isLoggedIn ?
-          <Fragment>
+        {props.isLoggedIn
+          ? <Fragment>
             {props.userEmail}
-            <div className="user-block__avatar">
+            <Link to="/mylist" className="user-block__avatar">
               <img src={props.userAvatar} alt="User avatar" width="63" height="63" />
-            </div>
+            </Link>
           </Fragment>
-          :
-          signInLink
+          : signInLink
         }
       </div>
     </header>

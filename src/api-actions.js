@@ -21,8 +21,8 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
     .then((response) => {
       dispatch(requireAuthorization(AuthorizationStatus.AUTH));
       dispatch(loggedIn(response.data.email, response.data.avatar_url));
+      dispatch(redirectToRoute(`/`));
     })
-    .then(() => dispatch(redirectToRoute(`/`)))
 );
 
 export const fetchFilm = (id) => (dispatch, _getState, api) => (

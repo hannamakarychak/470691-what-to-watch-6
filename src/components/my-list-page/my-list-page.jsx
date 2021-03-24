@@ -10,7 +10,7 @@ const MyListPage = (props) => {
   return (
     <Fragment>
       <div className="user-page">
-        <Header className="user-page__head" isLoggedIn>
+        <Header className="user-page__head">
           <h1 className="page-title user-page__title">My list</h1>
         </Header>
 

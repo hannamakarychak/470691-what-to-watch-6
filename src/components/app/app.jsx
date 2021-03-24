@@ -36,8 +36,8 @@ const App = ({movies, promoFilm}) => {
           path="/films/:id/review"
           render={() => <AddReviewPage name={movies[0].name} imgSrc={movies[0].preview_image} />}>
         </PrivateRoute>
-        <Route exact path="/films/:id/player">
-          <PlayerPage name={movies[0].name} />
+        <Route exact path="/player/:id">
+          <PlayerPage />
         </Route>
         <Route
           render={() => (

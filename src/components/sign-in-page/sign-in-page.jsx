@@ -1,12 +1,14 @@
 import React, {Fragment, useRef} from 'react';
+import {Redirect} from 'react-router';
 import PropTypes from "prop-types";
+import {connect} from 'react-redux';
 
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import {login} from '../../api-actions';
-import {connect} from 'react-redux';
+import {isUserLoggedInSelector} from '../../store/user/selectors';
 
-const SignInPage = ({onSubmit}) => {
+const SignInPage = ({onSubmit, isLoggedIn}) => {
   const loginRef = useRef();
   const passwordRef = useRef();
 
@@ -18,6 +20,10 @@ const SignInPage = ({onSubmit}) => {
       password: passwordRef.current.value
     });
   };
+
+  if (isLoggedIn) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Fragment>
@@ -65,7 +71,8 @@ const SignInPage = ({onSubmit}) => {
 };
 
 SignInPage.propTypes = {
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -74,6 +81,9 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
-export {SignInPage};
-export default connect(null, mapDispatchToProps)(SignInPage);
+const mapStateToProps = (state) => ({
+  isLoggedIn: isUserLoggedInSelector(state)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInPage);
 

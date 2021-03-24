@@ -7,7 +7,6 @@ import thunk from 'redux-thunk';
 
 import App from './components/app/app';
 import movies from './mocks/films';
-import reviews from './mocks/reviews';
 import reducer from './store/reducer';
 import {createApi} from './api';
 import {checkAuth} from './api-actions';
@@ -19,4 +18,4 @@ const api = createApi(() => store.dispatch(requireAuthorization(AuthorizationSta
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api)), applyMiddleware(redirect)));
 store.dispatch(checkAuth());
 
-ReactDOM.render(<Provider store={store}><App movies={movies} promoFilm={movies[0]} reviews={reviews} /></Provider>, document.querySelector(`#root`));
+ReactDOM.render(<Provider store={store}><App movies={movies} promoFilm={movies[0]} /></Provider>, document.querySelector(`#root`));
