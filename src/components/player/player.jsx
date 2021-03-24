@@ -17,7 +17,6 @@ const Player = (props) => {
   return (
     <video
       src={props.videoSrc}
-      className=""
       poster={props.posterSrc}
       muted={props.isMuted}
       style={props.style || {}}
