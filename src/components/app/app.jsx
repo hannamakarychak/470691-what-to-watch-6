@@ -1,6 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Router as BrowserRouter, Route, Switch} from 'react-router-dom';
+import PrivateRoute from '../private-route/private-route';
+import browserHistory from "../../browser-history";
 
 import SignInPage from '../sign-in-page/sign-in-page';
 import MainPage from '../main-page/main-page';
@@ -8,12 +9,9 @@ import MyListPage from '../my-list-page/my-list-page';
 import MoviePage from '../movie-page/movie-page';
 import AddReviewPage from '../add-review-page/add-review-page';
 import PlayerPage from '../player-page/player-page';
-import {moviePropTypes} from '../../prop-types';
 import Header from '../header/header';
-import PrivateRoute from '../private-route/private-route';
-import browserHistory from "../../browser-history";
 
-const App = ({movies}) => {
+const App = () => {
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
@@ -26,7 +24,7 @@ const App = ({movies}) => {
         <PrivateRoute
           exact
           path="/mylist"
-          render={() => <MyListPage movies={movies} />}>
+          render={() => <MyListPage />}>
         </PrivateRoute>
         <Route exact path="/films/:id">
           <MoviePage />
@@ -52,11 +50,6 @@ const App = ({movies}) => {
       </Switch>
     </BrowserRouter>
   );
-};
-
-
-App.propTypes = {
-  movies: PropTypes.arrayOf(moviePropTypes).isRequired,
 };
 
 export default App;

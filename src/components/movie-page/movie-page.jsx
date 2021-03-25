@@ -1,4 +1,5 @@
 import React, {Fragment, useEffect} from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link, useParams} from 'react-router-dom';
 
@@ -7,13 +8,13 @@ import Header from '../header/header';
 import MoviesList from '../movies-list/movies-list';
 import {moviePropTypes, reviewPropTypes} from '../../prop-types';
 import Tabs from '../tabs/tabs';
-import {connect} from 'react-redux';
-import {fetchFilm, fetchMoviesList, fetchReviews} from '../../api-actions';
+import {addToMyList, fetchFilm, fetchMoviesList, fetchReviews} from '../../api-actions';
 import Spinner from '../spinner/spinner';
 import {allMoviesLoadedSelector} from '../../store/all-movies/selectors';
 import {selectedMovieSelector, selectedMovieLoadedSelector, relatedMoviesSelector} from '../../store/selected-movie/selectors';
 import {reviewsIsLoadedSelector, reviewsSelector} from '../../store/reviews/selectors';
 import {isUserLoggedInSelector} from '../../store/user/selectors';
+import FavoriteButton from '../favorite-button/favorite-button';
 
 const MoviePage = (props) => {
   const {
@@ -26,7 +27,8 @@ const MoviePage = (props) => {
     relatedMovies,
     reviews,
     isLoggedIn,
-    isReviewsLoaded
+    isReviewsLoaded,
+    onSetFavorite
   } = props;
 
   const params = useParams();
@@ -86,12 +88,10 @@ const MoviePage = (props) => {
                   </svg>
                   <span>Play</span>
                 </Link>
-                <button className="btn btn--list movie-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref={movie.isFavorite ? `#in-list` : `#add`}></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
+                <FavoriteButton
+                  onClick={() => onSetFavorite(movie.id, !movie.is_favorite)}
+                  isFavorite={movie.is_favorite}
+                />
                 {isLoggedIn && <Link to={`/films/${currentMovieId}/review`} className="btn movie-card__button">Add review</Link>}
               </div>
             </div>
@@ -144,7 +144,8 @@ MoviePage.propTypes = {
   isMovieLoaded: PropTypes.bool.isRequired,
   isReviewsLoaded: PropTypes.bool.isRequired,
   onLoadReviews: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
+  onSetFavorite: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -166,6 +167,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onLoadReviews(reviews) {
     dispatch(fetchReviews(reviews));
+  },
+  onSetFavorite(movieId, isFavorite) {
+    dispatch(addToMyList(movieId, isFavorite));
   }
 });
 

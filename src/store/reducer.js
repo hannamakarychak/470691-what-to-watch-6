@@ -8,13 +8,13 @@ export const NameSpace = {
   ALL_MOVIES: `ALL_MOVIES`,
   USER: `USER`,
   SELECTED_MOVIE: `SELECTED_MOVIE`,
-  REVIEWS: `REVIEWS`
+  REVIEWS: `REVIEWS`,
 };
 
 export default combineReducers({
   [NameSpace.ALL_MOVIES]: allMovies,
   [NameSpace.USER]: userAuthorization,
   [NameSpace.SELECTED_MOVIE]: selectedMovie,
-  [NameSpace.REVIEWS]: reviews
+  [NameSpace.REVIEWS]: reviews,
 });
 

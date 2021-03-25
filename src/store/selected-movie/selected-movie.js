@@ -14,6 +14,15 @@ export const selectedMovie = (state = initialState, action) => {
         movie: action.payload
       };
 
+    case ActionType.SET_MOVIE_FAVORITE:
+      return {
+        ...state,
+        movie: {
+          ...state.movie,
+          "is_favorite": action.payload.isFavorite
+        }
+      };
+
     default:
       return state;
   }

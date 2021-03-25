@@ -1,18 +1,26 @@
 import React, {Fragment, useEffect} from 'react';
 import PropTypes from 'prop-types';
 
+import FavoriteButton from './../favorite-button/favorite-button';
 import {moviePropTypes} from '../../prop-types';
 import Header from '../header/header';
 import Footer from '../footer/footer';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {fetchMoviesList, fetchPromoMovie} from '../../api-actions';
+import {addToMyList, fetchMoviesList, fetchPromoMovie} from '../../api-actions';
 import Spinner from '../spinner/spinner';
 import {allMoviesLoadedSelector} from '../../store/all-movies/selectors';
 import Catalog from './../catalog/catalog';
 import {selectedMovieLoadedSelector, selectedMovieSelector} from '../../store/selected-movie/selectors';
 
-const MainPage = ({promoMovie, isAllMoviesLoaded, onLoadMoviesList, isPromoMovieLoaded, onLoadPromoMovie}) => {
+const MainPage = ({
+  promoMovie,
+  isAllMoviesLoaded,
+  onLoadMoviesList,
+  isPromoMovieLoaded,
+  onLoadPromoMovie,
+  onSetFavorite
+}) => {
   useEffect(() => {
     if (!isAllMoviesLoaded) {
       onLoadMoviesList();
@@ -69,12 +77,10 @@ const MainPage = ({promoMovie, isAllMoviesLoaded, onLoadMoviesList, isPromoMovie
                   </svg>
                   <span>Play</span>
                 </Link>
-                <button className="btn btn--list movie-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
+                <FavoriteButton
+                  onClick={() => onSetFavorite(promoMovie.id, !promoMovie.is_favorite)}
+                  isFavorite={promoMovie.is_favorite}
+                />
               </div>
             </div>
           </div>
@@ -96,7 +102,8 @@ MainPage.propTypes = {
   isAllMoviesLoaded: PropTypes.bool.isRequired,
   onLoadMoviesList: PropTypes.func.isRequired,
   isPromoMovieLoaded: PropTypes.bool.isRequired,
-  onLoadPromoMovie: PropTypes.func.isRequired
+  onLoadPromoMovie: PropTypes.func.isRequired,
+  onSetFavorite: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -111,6 +118,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onLoadPromoMovie() {
     dispatch(fetchPromoMovie());
+  },
+  onSetFavorite(movieId, isFavorite) {
+    dispatch(addToMyList(movieId, isFavorite));
   }
 });
 

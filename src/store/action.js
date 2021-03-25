@@ -6,7 +6,8 @@ export const ActionType = {
   REDIRECT_TO_ROUTE: `main/redirectToRoute`,
   GET_FILM: `main/getFilm`,
   GET_REVIEWS: `film/getReviews`,
-  GET_PROMO_FILM: `film/getPromoFilm`
+  GET_PROMO_FILM: `film/getPromoFilm`,
+  SET_MOVIE_FAVORITE: `main/addToMyList`
 };
 
 
@@ -53,3 +54,10 @@ export const getPromoMovie = (film) => ({
   payload: film
 });
 
+export const setMovieFavorite = (movieId, isFavorite) => ({
+  type: ActionType.SET_MOVIE_FAVORITE,
+  payload: {
+    movieId,
+    isFavorite
+  }
+});

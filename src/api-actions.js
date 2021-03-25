@@ -1,4 +1,12 @@
-import {getAllMovies, getFilm, getReviews, loggedIn, redirectToRoute, requireAuthorization} from "./store/action";
+import {
+  getAllMovies,
+  getFilm,
+  getReviews,
+  loggedIn,
+  redirectToRoute,
+  requireAuthorization,
+  setMovieFavorite
+} from "./store/action";
 import {AuthorizationStatus} from "./constants";
 import browserHistory from "./browser-history";
 
@@ -54,4 +62,9 @@ export const fetchPromoMovie = () => (dispatch, _getState, api) => (
         browserHistory.push(`/404`);
       }
     })
+);
+
+export const addToMyList = (movieId, isFavorite) => (dispatch, _getState, api) => (
+  api.post(`/favorite/${movieId}/${isFavorite ? 1 : 0}`)
+    .then(() => dispatch(setMovieFavorite(movieId, isFavorite)))
 );
