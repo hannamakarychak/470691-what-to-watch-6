@@ -11,6 +11,7 @@ import {
 } from '../../store/selected-movie/selectors';
 import {fetchFilm} from '../../api-actions';
 import {formatTime} from '../../utils';
+import Spinner from '../spinner/spinner';
 
 const PlayerPage = (props) => {
   const {isMovieLoaded, onLoadMovie, name, videoSrc, previewImgSrc} = props;
@@ -37,6 +38,10 @@ const PlayerPage = (props) => {
       }
     }, 100);
   }, [isPlaying]);
+
+  if (!isMovieLoaded) {
+    return <Spinner />;
+  }
 
   const handlePlayClick = () => {
     if (isPlaying) {

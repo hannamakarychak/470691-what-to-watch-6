@@ -12,7 +12,7 @@ import {fetchFilm, fetchMoviesList, fetchReviews} from '../../api-actions';
 import Spinner from '../spinner/spinner';
 import {allMoviesLoadedSelector} from '../../store/all-movies/selectors';
 import {selectedMovieSelector, selectedMovieLoadedSelector, relatedMoviesSelector} from '../../store/selected-movie/selectors';
-import {reviewsLoadedSelector, reviewsSelector} from '../../store/reviews/selectors';
+import {reviewsIsLoadedSelector, reviewsSelector} from '../../store/reviews/selectors';
 import {isUserLoggedInSelector} from '../../store/user/selectors';
 
 const MoviePage = (props) => {
@@ -153,7 +153,7 @@ const mapStateToProps = (state) => ({
   movie: selectedMovieSelector(state),
   isMovieLoaded: selectedMovieLoadedSelector(state),
   reviews: reviewsSelector(state),
-  isReviewsLoaded: reviewsLoadedSelector(state),
+  isReviewsLoaded: reviewsIsLoadedSelector(state),
   isLoggedIn: isUserLoggedInSelector(state)
 });
 
