@@ -45,3 +45,13 @@ export const addReview = (movieId, rating, comment) => (dispatch, _getState, api
   api.post(`/comments/${movieId}`, {rating, comment})
     .then(() => dispatch(redirectToRoute(`/films/${movieId}`)))
 );
+
+export const fetchPromoMovie = () => (dispatch, _getState, api) => (
+  api.get(`/films/promo`)
+    .then(({data}) => dispatch(getFilm(data)))
+    .catch(({response}) => {
+      if (response.status === 404) {
+        browserHistory.push(`/404`);
+      }
+    })
+);

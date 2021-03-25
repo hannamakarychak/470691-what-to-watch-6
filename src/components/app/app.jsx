@@ -13,12 +13,12 @@ import Header from '../header/header';
 import PrivateRoute from '../private-route/private-route';
 import browserHistory from "../../browser-history";
 
-const App = ({movies, promoFilm}) => {
+const App = ({movies}) => {
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path="/">
-          <MainPage promoFilm={promoFilm} />
+          <MainPage />
         </Route>
         <Route exact path="/login">
           <SignInPage />
@@ -34,7 +34,7 @@ const App = ({movies, promoFilm}) => {
         <PrivateRoute
           exact
           path="/films/:id/review"
-          render={() => <AddReviewPage name={movies[0].name} imgSrc={movies[0].preview_image} />}>
+          render={() => <AddReviewPage />}>
         </PrivateRoute>
         <Route exact path="/player/:id">
           <PlayerPage />
@@ -57,7 +57,6 @@ const App = ({movies, promoFilm}) => {
 
 App.propTypes = {
   movies: PropTypes.arrayOf(moviePropTypes).isRequired,
-  promoFilm: moviePropTypes.isRequired
 };
 
 export default App;

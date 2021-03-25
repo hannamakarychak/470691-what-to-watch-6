@@ -18,4 +18,4 @@ const api = createApi(() => store.dispatch(requireAuthorization(AuthorizationSta
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api)), applyMiddleware(redirect)));
 store.dispatch(checkAuth());
 
-ReactDOM.render(<Provider store={store}><App movies={movies} promoFilm={movies[0]} /></Provider>, document.querySelector(`#root`));
+ReactDOM.render(<Provider store={store}><App movies={movies} /></Provider>, document.querySelector(`#root`));

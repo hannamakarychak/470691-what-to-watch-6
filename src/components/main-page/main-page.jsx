@@ -6,19 +6,24 @@ import Header from '../header/header';
 import Footer from '../footer/footer';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {fetchMoviesList} from '../../api-actions';
+import {fetchMoviesList, fetchPromoMovie} from '../../api-actions';
 import Spinner from '../spinner/spinner';
 import {allMoviesLoadedSelector} from '../../store/all-movies/selectors';
 import Catalog from './../catalog/catalog';
+import {selectedMovieLoadedSelector, selectedMovieSelector} from '../../store/selected-movie/selectors';
 
-const MainPage = ({promoFilm, isLoaded, onLoadMoviesList}) => {
+const MainPage = ({promoMovie, isAllMoviesLoaded, onLoadMoviesList, isPromoMovieLoaded, onLoadPromoMovie}) => {
   useEffect(() => {
-    if (!isLoaded) {
+    if (!isAllMoviesLoaded) {
       onLoadMoviesList();
     }
-  }, [isLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isAllMoviesLoaded, onLoadMoviesList]);
 
-  if (!isLoaded) {
+  useEffect(() => {
+    onLoadPromoMovie();
+  }, [isPromoMovieLoaded, onLoadPromoMovie]);
+
+  if (!isPromoMovieLoaded || !isAllMoviesLoaded) {
     return <Spinner />;
   }
 
@@ -26,7 +31,7 @@ const MainPage = ({promoFilm, isLoaded, onLoadMoviesList}) => {
     <Fragment>
       <section className="movie-card">
         <div className="movie-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt={promoFilm.name} />
+          <img src={promoMovie.background_image} alt={promoMovie.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -37,25 +42,25 @@ const MainPage = ({promoFilm, isLoaded, onLoadMoviesList}) => {
           <div className="movie-card__info">
             <div className="movie-card__poster">
               <img
-                src="img/the-grand-budapest-hotel-poster.jpg"
-                alt={`${promoFilm.name} poster`}
+                src={promoMovie.poster_image}
+                alt={`${promoMovie.name} poster`}
                 width="218"
                 height="327"
               />
             </div>
 
             <div className="movie-card__desc">
-              <h2 className="movie-card__title">{promoFilm.name}</h2>
+              <h2 className="movie-card__title">{promoMovie.name}</h2>
               <p className="movie-card__meta">
-                <span className="movie-card__genre">{promoFilm.genre}</span>
-                <span className="movie-card__year">{promoFilm.released}</span>
+                <span className="movie-card__genre">{promoMovie.genre}</span>
+                <span className="movie-card__year">{promoMovie.released}</span>
               </p>
 
               <div className="movie-card__buttons">
                 <Link
                   className="btn btn--play movie-card__button"
                   to={{
-                    pathname: `/player/${promoFilm.id}`,
+                    pathname: `/player/${promoMovie.id}`,
                     isPromo: true
                   }}
                 >
@@ -87,18 +92,25 @@ const MainPage = ({promoFilm, isLoaded, onLoadMoviesList}) => {
 
 
 MainPage.propTypes = {
-  promoFilm: moviePropTypes.isRequired,
-  isLoaded: PropTypes.bool.isRequired,
+  promoMovie: moviePropTypes,
+  isAllMoviesLoaded: PropTypes.bool.isRequired,
   onLoadMoviesList: PropTypes.func.isRequired,
+  isPromoMovieLoaded: PropTypes.bool.isRequired,
+  onLoadPromoMovie: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  isLoaded: allMoviesLoadedSelector(state),
+  isAllMoviesLoaded: allMoviesLoadedSelector(state),
+  isPromoMovieLoaded: selectedMovieLoadedSelector(state),
+  promoMovie: selectedMovieSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onLoadMoviesList() {
     dispatch(fetchMoviesList());
+  },
+  onLoadPromoMovie() {
+    dispatch(fetchPromoMovie());
   }
 });
 

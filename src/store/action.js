@@ -5,7 +5,8 @@ export const ActionType = {
   LOGGED_IN: `user/loggedIn`,
   REDIRECT_TO_ROUTE: `main/redirectToRoute`,
   GET_FILM: `main/getFilm`,
-  GET_REVIEWS: `film/getReviews`
+  GET_REVIEWS: `film/getReviews`,
+  GET_PROMO_FILM: `film/getPromoFilm`
 };
 
 
@@ -45,5 +46,10 @@ export const getFilm = (film) => ({
 export const getReviews = (reviews) => ({
   type: ActionType.GET_REVIEWS,
   payload: reviews
+});
+
+export const getPromoMovie = (film) => ({
+  type: ActionType.GET_PROMO_FILM,
+  payload: film
 });
 
