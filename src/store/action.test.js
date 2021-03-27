@@ -1,5 +1,5 @@
-import {AuthorizationStatus} from "../../constants";
-import {ActionType, getAllMovies, setGenre, requireAuthorization, loggedIn, redirectToRoute, getFilm, getReviews, getPromoMovie, setMovieFavorite} from "../action";
+import {AuthorizationStatus} from "../constants";
+import {ActionType, getAllMovies, setGenre, requireAuthorization, loggedIn, redirectToRoute, getFilm, getReviews, getPromoMovie, setMovieFavorite} from "./action";
 
 const mockMovie = {
   "name": `Macbeth`,
@@ -25,7 +25,7 @@ const mockMovie = {
   "preview_video_link": `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.web`
 };
 
-const mockReviews = [
+export const mockReviews = [
   {
     "id": 1,
     "user": {
