@@ -5,7 +5,8 @@
   "description": "Личный проект «Что посмотреть» от HTML Academy",
   "scripts": {
     "eslint": "eslint --ext .jsx --ext .js src/",
-    "test": "npm run eslint",
+    "test": "npm run eslint && npm run test.jest",
+    "test.jest": "jest",
     "build": "webpack --mode production",
     "start": "webpack-dev-server"
   },
@@ -31,6 +32,7 @@
     "babel-loader": "8.2",
     "classnames": "2.2.6",
     "history": "4.10",
+    "jest": "26.6",
     "prop-types": "15.7",
     "react": "16.14",
     "react-dom": "16.14",
@@ -40,5 +42,10 @@
     "redux-devtools-extension": "2.13",
     "redux-thunk": "2.3",
     "reselect": "4.0.0"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|less)$": "<rootDir>/src/style-mock.js"
+    }
   }
 }
