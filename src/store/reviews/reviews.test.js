@@ -29,7 +29,9 @@ describe(`Reducer 'reviews' should work correctly`, () => {
       isLoaded: true
     });
   });
+});
 
+describe(`Async operations work correctly`, () => {
   it(`Async operation for getting reviews works correctly`, () => {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();

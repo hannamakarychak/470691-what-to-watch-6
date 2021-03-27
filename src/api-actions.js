@@ -8,7 +8,6 @@ import {
   setMovieFavorite
 } from "./store/action";
 import {AuthorizationStatus} from "./constants";
-import browserHistory from "./browser-history";
 
 export const fetchMoviesList = () => (dispatch, _getState, api) => (
   api.get(`/films`)
@@ -38,7 +37,7 @@ export const fetchFilm = (id) => (dispatch, _getState, api) => (
     .then(({data}) => dispatch(getFilm(data)))
     .catch(({response}) => {
       if (response.status === 404) {
-        browserHistory.push(`/404`);
+        dispatch(redirectToRoute(`/404`));
       }
     })
 );
@@ -57,11 +56,7 @@ export const addReview = (movieId, rating, comment) => (dispatch, _getState, api
 export const fetchPromoMovie = () => (dispatch, _getState, api) => (
   api.get(`/films/promo`)
     .then(({data}) => dispatch(getFilm(data)))
-    .catch(({response}) => {
-      if (response.status === 404) {
-        browserHistory.push(`/404`);
-      }
-    })
+    .catch(() => { })
 );
 
 export const addToMyList = (movieId, isFavorite) => (dispatch, _getState, api) => (
