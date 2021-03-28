@@ -21,3 +21,17 @@ export const formatTime = (seconds) => {
 
   return `${fullHours.toString().padStart(2, `0`)}:${fullMinutes.toString().padStart(2, `0`)}:${fullSeconds.toString().padStart(2, `0`)}`;
 };
+
+export const getRating = (rating) => {
+  if (rating >= 0 && rating < 3) {
+    return `Bad`;
+  } else if (rating >= 3 && rating < 5) {
+    return `Normal`;
+  } else if (rating >= 5 && rating < 8) {
+    return `Good`;
+  } else if (rating >= 8 && rating < 10) {
+    return `Very good`;
+  } else {
+    return `Awesome`;
+  }
+};

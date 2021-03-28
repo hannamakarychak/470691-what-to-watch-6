@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {reviewPropTypes} from '../../prop-types';
 import Review from '../review/review';
+import {getRating} from '../../utils';
 
 const Tabs = (props) => {
   const [currentTab, setCurrentTab] = useState(0);
@@ -36,7 +37,7 @@ const Tabs = (props) => {
           <div className="movie-rating">
             <div className="movie-rating__score">{props.rating}</div>
             <p className="`movie-rating__meta">
-              <span className="movie-rating__level">Very good</span>
+              <span className="movie-rating__level">{getRating(props.rating)}</span>
               <span className="movie-rating__count">{props.scoresCount}</span>
             </p>
           </div>
