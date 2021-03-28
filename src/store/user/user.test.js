@@ -72,7 +72,7 @@ describe(`Async operations work correctly`, () => {
       .onGet(`/login`)
       .reply(200, {
         "email": `email@test.com`,
-        "avatar_url": `https://avatar.face.png`
+        "avatar_url": `https://avatar.com/face.png`
       });
 
     return checkAuthLoader(dispatch, () => { }, api)
@@ -86,7 +86,7 @@ describe(`Async operations work correctly`, () => {
           type: ActionType.LOGGED_IN,
           payload: {
             email: `email@test.com`,
-            avatar: `https://avatarface.png`
+            avatar: `https://avatar.com/face.png`
           }
         });
       });
@@ -95,13 +95,13 @@ describe(`Async operations work correctly`, () => {
   it(`Should post correct Api call to /login`, () => {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
-    const checkLoginLoader = login({"email": `email@test.com`, "avatar_url": `https://avatarface.png`});
+    const checkLoginLoader = login({"email": `email@test.com`, "avatar_url": `https://avatar.com/face.png`});
 
     apiMock
       .onPost(`/login`)
       .reply(200, {
         "email": `email@test.com`,
-        "avatar_url": `https://avatarface.png`
+        "avatar_url": `https://avatar.com/face.png`
       });
 
     return checkLoginLoader(dispatch, () => { }, api)
@@ -115,7 +115,7 @@ describe(`Async operations work correctly`, () => {
           type: ActionType.LOGGED_IN,
           payload: {
             email: `email@test.com`,
-            avatar: `https://avatarface.png`
+            avatar: `https://avatar.com/face.png`
           }
         });
         expect(dispatch).toHaveBeenNthCalledWith(3, {

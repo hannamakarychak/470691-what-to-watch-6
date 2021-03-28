@@ -1,7 +1,7 @@
 import {AuthorizationStatus} from "../constants";
 import {ActionType, getAllMovies, setGenre, requireAuthorization, loggedIn, redirectToRoute, getFilm, getReviews, getPromoMovie, setMovieFavorite} from "./action";
 
-const mockMovie = {
+export const mockMovie = {
   "name": `Macbeth`,
   "poster_image": `https://assets.htmlacademy.ru/intensives/javascript-3/film/poster/Macbeth.jpg`,
   "preview_image": `https://assets.htmlacademy.ru/intensives/javascript-3/film/preview/macbeth.jpg`,
