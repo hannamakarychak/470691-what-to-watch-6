@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should Spinner render correctly 1`] = `
+<div>
+  <div
+    class="spinner-wrapper"
+  >
+    <span
+      class="visually-hidden"
+    >
+      Loading
+    </span>
+    <svg
+      class="spinner"
+      viewBox="0 0 50 50"
+    >
+      <circle
+        class="spinner__path"
+        cx="25"
+        cy="25"
+        fill="#c9b37e;"
+        r="20"
+        stroke-width="5"
+      />
+    </svg>
+  </div>
+</div>
+`;

@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should Header render correctly when isLoggedIn is false 1`] = `
+<div>
+  <header
+    class="page-header test-class"
+  >
+    <div
+      class="logo"
+    >
+      <a
+        class="logo__link"
+        href="/"
+      >
+        <span
+          class="logo__letter logo__letter--1"
+        >
+          W
+        </span>
+        <span
+          class="logo__letter logo__letter--2"
+        >
+          T
+        </span>
+        <span
+          class="logo__letter logo__letter--3"
+        >
+          W
+        </span>
+      </a>
+    </div>
+    this is children
+    <div
+      class="user-block"
+    >
+      <a
+        class="user-block__link"
+        href="/login"
+      >
+        Sign in
+      </a>
+    </div>
+  </header>
+</div>
+`;
+
+exports[`Should Header render correctly when isLoggedIn is false on /login route 1`] = `
+<div>
+  <header
+    class="page-header test-class"
+  >
+    <div
+      class="logo"
+    >
+      <a
+        class="logo__link"
+        href="/"
+      >
+        <span
+          class="logo__letter logo__letter--1"
+        >
+          W
+        </span>
+        <span
+          class="logo__letter logo__letter--2"
+        >
+          T
+        </span>
+        <span
+          class="logo__letter logo__letter--3"
+        >
+          W
+        </span>
+      </a>
+    </div>
+    this is children
+    <div
+      class="user-block"
+    />
+  </header>
+</div>
+`;
+
+exports[`Should Header render correctly when isLoggedIn is true 1`] = `
+<div>
+  <header
+    class="page-header test-class"
+  >
+    <div
+      class="logo"
+    >
+      <a
+        class="logo__link"
+        href="/"
+      >
+        <span
+          class="logo__letter logo__letter--1"
+        >
+          W
+        </span>
+        <span
+          class="logo__letter logo__letter--2"
+        >
+          T
+        </span>
+        <span
+          class="logo__letter logo__letter--3"
+        >
+          W
+        </span>
+      </a>
+    </div>
+    this is children
+    <div
+      class="user-block"
+    >
+      email@test.com
+      <a
+        class="user-block__avatar"
+        href="/mylist"
+      >
+        <img
+          alt="User avatar"
+          height="63"
+          src="https://avatar.com/face.png"
+          width="63"
+        />
+      </a>
+    </div>
+  </header>
+</div>
+`;
