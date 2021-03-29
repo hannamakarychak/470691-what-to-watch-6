@@ -11,9 +11,9 @@ const MoviesList = (props) => {
           <MovieCard
             key={el.id}
             title={el.name}
-            imgSrc={el.preview_image}
+            imgSrc={el.previewImage}
             id={el.id}
-            videoSrc={el.preview_video_link}
+            videoSrc={el.previewVideoLink}
           />
         ))}
       </div>

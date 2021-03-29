@@ -1,4 +1,4 @@
-import {ALL_GENRES} from "./constants";
+import {ALL_GENRES, EMAIL_REGEX} from "./constants";
 
 export const getUniqueGenres = (movies) => {
   return [ALL_GENRES, ...new Set(movies.map((movie) => movie.genre))];
@@ -36,7 +36,4 @@ export const getRating = (rating) => {
   }
 };
 
-export const isValidEmail = (email) => {
-  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(email);
-};
+export const isValidEmail = (email) => EMAIL_REGEX.test(email);

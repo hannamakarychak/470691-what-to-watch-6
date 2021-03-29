@@ -22,25 +22,25 @@ export const selectedMovieNameSelector = createSelector(
 
 export const selectedMovieVideoSrcSelector = createSelector(
   selectedMovieSelector,
-  (movie) => movie ? movie.video_link : null
+  (movie) => movie ? movie.videoLink : null
 );
 
 export const selectedMoviePreviewImgSrcSelector = createSelector(
   selectedMovieSelector,
-  (movie) => movie ? movie.preview_image : null
+  (movie) => movie ? movie.previewImage : null
 );
 
 export const selectedMoviePosterImgSrcSelector = createSelector(
   selectedMovieSelector,
-  (movie) => movie ? movie.poster_image : null
+  (movie) => movie ? movie.posterImage : null
 );
 
 export const selectedMovieBackgroundImgSrcSelector = createSelector(
   selectedMovieSelector,
-  (movie) => movie ? movie.background_image : null
+  (movie) => movie ? movie.backgroundImage : null
 );
 
 export const selectedMovieBackgroundColorSelector = createSelector(
   selectedMovieSelector,
-  (movie) => movie ? movie.background_color : null
+  (movie) => movie ? movie.backgroundColor : null
 );

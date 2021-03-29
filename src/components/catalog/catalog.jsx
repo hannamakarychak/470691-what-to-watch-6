@@ -10,6 +10,7 @@ import ShowMore from "../show-more/show-more";
 import {moviePropTypes} from "../../prop-types";
 
 const MOVIE_COUNT = 8;
+const MAX_GENRES = 10;
 
 const Catalog = ({allGenres, selectedGenre, changeGenre, movies}) => {
   const [movieCount, setMovieCount] = useState(MOVIE_COUNT);
@@ -20,7 +21,7 @@ const Catalog = ({allGenres, selectedGenre, changeGenre, movies}) => {
     <section className="catalog">
       <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-      <Genres genres={allGenres.slice(0, 10)} onGenreSelect={changeGenre} selectedGenre={selectedGenre} />
+      <Genres genres={allGenres.slice(0, MAX_GENRES)} onGenreSelect={changeGenre} selectedGenre={selectedGenre} />
 
       <MoviesList movies={movies.slice(0, movieCount)} />
 

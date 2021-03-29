@@ -100,7 +100,7 @@ describe(`Async operations work correctly`, () => {
   it(`Should post correct Api call to /login`, () => {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
-    const checkLoginLoader = login({"email": `email@test.com`, "avatar_url": `https://avatar.com/face.png`});
+    const checkLoginLoader = login({login: `email@test.com`, password: `12313123`});
 
     apiMock
       .onPost(`/login`)

@@ -2,6 +2,7 @@ import MockAdapter from "axios-mock-adapter";
 
 import {createApi} from "../../api";
 import {addToMyList, fetchFilm} from "../../api-actions";
+import {adaptMovieToClient} from "../../api-adapter";
 import {ActionType} from "../action";
 import {mockMovie} from "../action.test";
 import {selectedMovie} from "./selected-movie";
@@ -23,7 +24,7 @@ describe(`Reducer 'selected movie' should work correctly`, () => {
 
     const getSelectedMovieAction = {
       type: ActionType.GET_FILM,
-      payload: mockMovie
+      payload: adaptMovieToClient(mockMovie)
     };
 
     expect(selectedMovie(state, getSelectedMovieAction));
@@ -61,7 +62,7 @@ describe(`Async operations work correctly`, () => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenCalledWith({
           type: ActionType.GET_FILM,
-          payload: mockMovie
+          payload: adaptMovieToClient(mockMovie)
         });
       });
   });

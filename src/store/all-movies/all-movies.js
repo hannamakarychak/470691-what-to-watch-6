@@ -29,7 +29,7 @@ export const allMovies = (state = initialState, action) => {
           if (movie.id === action.payload.movieId) {
             return {
               ...movie,
-              "is_favorite": action.payload.isFavorite
+              isFavorite: action.payload.isFavorite
             };
           } else {
             return movie;

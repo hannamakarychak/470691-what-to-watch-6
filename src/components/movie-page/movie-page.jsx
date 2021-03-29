@@ -58,12 +58,12 @@ const MoviePage = (props) => {
       <section
         className="movie-card movie-card--full"
         style={{
-          background: movie.background_color
+          background: movie.backgroundColor
         }}
       >
         <div className="movie-card__hero">
           <div className="movie-card__bg">
-            <img src={movie.background_image} alt={movie.name} />
+            <img src={movie.backgroundImage} alt={movie.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -88,11 +88,16 @@ const MoviePage = (props) => {
                   </svg>
                   <span>Play</span>
                 </Link>
-                <FavoriteButton
-                  onClick={() => onSetFavorite(movie.id, !movie.is_favorite)}
-                  isFavorite={movie.is_favorite}
-                />
-                {isLoggedIn && <Link to={`/films/${currentMovieId}/review`} className="btn movie-card__button">Add review</Link>}
+
+                {isLoggedIn &&
+                  <Fragment>
+                    <FavoriteButton
+                      onClick={() => onSetFavorite(movie.id, !movie.isFavorite)}
+                      isFavorite={movie.isFavorite}
+                    />
+                    <Link to={`/films/${currentMovieId}/review`} className="btn movie-card__button">Add review</Link>
+                  </Fragment>
+                }
               </div>
             </div>
           </div>
@@ -101,19 +106,19 @@ const MoviePage = (props) => {
         <div className="movie-card__wrap movie-card__translate-top">
           <div className="movie-card__info">
             <div className="movie-card__poster movie-card__poster--big">
-              <img src={movie.poster_image} alt={movie.name} width="218" height="327" />
+              <img src={movie.posterImage} alt={movie.name} width="218" height="327" />
             </div>
 
             <div className="movie-card__desc">
               <Tabs
                 rating={movie.rating}
-                scoresCount={movie.scores_count}
+                scoresCount={movie.scoresCount}
                 director={movie.director}
                 starring={movie.starring}
                 description={movie.description}
                 genre={movie.genre}
                 released={movie.released}
-                runTime={movie.run_time}
+                runTime={movie.runTime}
                 reviews={reviews}
               />
             </div>

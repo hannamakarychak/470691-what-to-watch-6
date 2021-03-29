@@ -20,5 +20,5 @@ export const allGenresSelector = createSelector(
 
 export const favoriteMoviesSelector = createSelector(
   allMoviesSelector,
-  (allMovies) => allMovies.filter((movie) => movie.is_favorite)
+  (allMovies) => allMovies.filter((movie) => movie.isFavorite)
 );
