@@ -10,7 +10,9 @@ describe(`Reducer 'reviews' should work correctly`, () => {
   it(`Reducer without additional parameters should return initial state`, () => {
     expect(reviews(undefined, {})).toEqual({
       list: [],
-      isLoaded: false
+      isLoaded: false,
+      hasError: false,
+      isSending: false
     });
   });
 
@@ -64,9 +66,17 @@ describe(`Async operations work correctly`, () => {
 
     return addReview(1, 2, `super cool movie`)(dispatch, () => { }, api)
       .then(() => {
-        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledTimes(3);
 
-        expect(dispatch).toHaveBeenCalledWith({
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: ActionType.ADD_REVIEW_REQUEST
+        });
+
+        expect(dispatch).toHaveBeenNthCalledWith(2, {
+          type: ActionType.ADD_REVIEW_SUCCESS
+        });
+
+        expect(dispatch).toHaveBeenNthCalledWith(3, {
           type: ActionType.REDIRECT_TO_ROUTE,
           payload: `/films/1`
         });

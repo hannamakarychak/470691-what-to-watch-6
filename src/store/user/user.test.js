@@ -14,7 +14,8 @@ describe(`Reducer reviews should work correctly`, () => {
       authorizationStatus: AuthorizationStatus.NO_AUTH,
       email: null,
       avatar: null,
-      isLoaded: false
+      isLoaded: false,
+      hasError: false
     });
   });
 
@@ -23,7 +24,8 @@ describe(`Reducer reviews should work correctly`, () => {
       authorizationStatus: AuthorizationStatus.NO_AUTH,
       email: null,
       avatar: null,
-      isLoaded: false
+      isLoaded: false,
+      hasError: false
     };
     const requireAuthorizationAction = {
       type: ActionType.REQUIRED_AUTHORIZATION,
@@ -34,7 +36,8 @@ describe(`Reducer reviews should work correctly`, () => {
       authorizationStatus: AuthorizationStatus.AUTH,
       email: null,
       avatar: null,
-      isLoaded: true
+      isLoaded: true,
+      hasError: false
     });
   });
 
@@ -43,7 +46,8 @@ describe(`Reducer reviews should work correctly`, () => {
       authorizationStatus: AuthorizationStatus.NO_AUTH,
       email: null,
       avatar: null,
-      isLoaded: false
+      isLoaded: false,
+      hasError: false
     };
     const loggedInAction = {
       type: ActionType.LOGGED_IN,
@@ -57,7 +61,8 @@ describe(`Reducer reviews should work correctly`, () => {
       authorizationStatus: AuthorizationStatus.NO_AUTH,
       email: `test@gmail.com`,
       avatar: `https://avatar.com/face.png`,
-      isLoaded: true
+      isLoaded: true,
+      hasError: false
     });
   });
 });

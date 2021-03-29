@@ -3,12 +3,15 @@ export const ActionType = {
   GET_ALL_MOVIES: `main/getAllMovies`,
   REQUIRED_AUTHORIZATION: `main/requiredAuthorization`,
   LOGGED_IN: `user/loggedIn`,
-  LOGGED_IN_FAIL: `user/loggedInFail`,
+  LOGGED_IN_FAIL: `user/loggedIn/fail`,
   REDIRECT_TO_ROUTE: `main/redirectToRoute`,
   GET_FILM: `main/getFilm`,
   GET_REVIEWS: `film/getReviews`,
   GET_PROMO_FILM: `film/getPromoFilm`,
-  SET_MOVIE_FAVORITE: `main/addToMyList`
+  SET_MOVIE_FAVORITE: `main/addToMyList`,
+  ADD_REVIEW_REQUEST: `reviews/add/request`,
+  ADD_REVIEW_SUCCESS: `reviews/add/success`,
+  ADD_REVIEW_FAIL: `reviews/add/fail`
 };
 
 
@@ -52,6 +55,18 @@ export const getFilm = (film) => ({
 export const getReviews = (reviews) => ({
   type: ActionType.GET_REVIEWS,
   payload: reviews
+});
+
+export const addReviewRequest = () => ({
+  type: ActionType.ADD_REVIEW_REQUEST,
+});
+
+export const addReviewSuccess = () => ({
+  type: ActionType.ADD_REVIEW_SUCCESS,
+});
+
+export const addReviewFail = () => ({
+  type: ActionType.ADD_REVIEW_FAIL,
 });
 
 export const getPromoMovie = (film) => ({

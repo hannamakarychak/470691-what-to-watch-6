@@ -14,6 +14,7 @@ import {
   selectedMovieBackgroundColorSelector
 } from '../../store/selected-movie/selectors';
 import Spinner from '../spinner/spinner';
+import {reviewHasErrorSelector, reviewIsSendingSelector} from '../../store/reviews/selectors';
 
 const AddReviewPage = ({
   onSubmit,
@@ -22,7 +23,9 @@ const AddReviewPage = ({
   backgroundColor,
   backgroundImgSrc,
   isMovieLoaded,
-  onLoadMovie
+  onLoadMovie,
+  hasError,
+  isSending
 }) => {
   const params = useParams();
   const currentMovieId = params.id;
@@ -68,7 +71,12 @@ const AddReviewPage = ({
           </div>
         </div>
 
-        <ReviewForm onSubmit={handleSubmitClick} backgroundColor={backgroundColor} />
+        <ReviewForm
+          onSubmit={handleSubmitClick}
+          backgroundColor={backgroundColor}
+          hasError={hasError}
+          isLoading={isSending}
+        />
 
       </section>
     </Fragment>
@@ -82,7 +90,9 @@ AddReviewPage.propTypes = {
   backgroundImgSrc: PropTypes.string,
   backgroundColor: PropTypes.string,
   isMovieLoaded: PropTypes.bool.isRequired,
-  onLoadMovie: PropTypes.func.isRequired
+  onLoadMovie: PropTypes.func.isRequired,
+  isSending: PropTypes.bool.isRequired,
+  hasError: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -90,7 +100,9 @@ const mapStateToProps = (state) => ({
   name: selectedMovieNameSelector(state),
   imgSrc: selectedMoviePosterImgSrcSelector(state),
   backgroundImgSrc: selectedMovieBackgroundImgSrcSelector(state),
-  backgroundColor: selectedMovieBackgroundColorSelector(state)
+  backgroundColor: selectedMovieBackgroundColorSelector(state),
+  isSending: reviewIsSendingSelector(state),
+  hasError: reviewHasErrorSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
