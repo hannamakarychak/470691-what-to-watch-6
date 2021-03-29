@@ -20,7 +20,7 @@ const Catalog = ({allGenres, selectedGenre, changeGenre, movies}) => {
     <section className="catalog">
       <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-      <Genres genres={allGenres} onGenreSelect={changeGenre} selectedGenre={selectedGenre} />
+      <Genres genres={allGenres.slice(0, 10)} onGenreSelect={changeGenre} selectedGenre={selectedGenre} />
 
       <MoviesList movies={movies.slice(0, movieCount)} />
 

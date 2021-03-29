@@ -22,6 +22,21 @@ export const allMovies = (state = initialState, action) => {
         list: action.payload
       };
 
+    case ActionType.SET_MOVIE_FAVORITE:
+      return {
+        ...state,
+        list: state.list.map((movie) => {
+          if (movie.id === action.payload.movieId) {
+            return {
+              ...movie,
+              "is_favorite": action.payload.isFavorite
+            };
+          } else {
+            return movie;
+          }
+        })
+      };
+
     default:
       return state;
   }

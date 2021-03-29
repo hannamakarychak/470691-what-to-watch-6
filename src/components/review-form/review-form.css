@@ -1,0 +1,7 @@
+.add-review__error {
+  padding: 8px;
+  background-color: #fdb4b4;
+  border-radius: 8px;
+  color: #b10000;
+  font-size: 16px;
+}

@@ -5,7 +5,8 @@ export const initialState = {
   authorizationStatus: AuthorizationStatus.NO_AUTH,
   email: null,
   avatar: null,
-  isLoaded: false
+  isLoaded: false,
+  hasError: false
 };
 
 export const userAuthorization = (state = initialState, action) => {
@@ -22,7 +23,15 @@ export const userAuthorization = (state = initialState, action) => {
         ...state,
         email: action.payload.email,
         avatar: action.payload.avatar,
-        isLoaded: true
+        isLoaded: true,
+        hasError: false
+      };
+
+    case ActionType.LOGGED_IN_FAIL:
+      return {
+        ...state,
+        isLoaded: true,
+        hasError: true
       };
 
     default:

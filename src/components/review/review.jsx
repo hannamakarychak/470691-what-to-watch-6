@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import dayjs from 'dayjs';
 
 const Review = ({comment, userName, date, rating}) => {
+  const dateObject = dayjs(date);
 
   return (
     <div className="review">
@@ -10,7 +12,9 @@ const Review = ({comment, userName, date, rating}) => {
 
         <footer className="review__details">
           <cite className="review__author">{userName}</cite>
-          <time className="review__date" dateTime={date}>{date}</time>
+          <time className="review__date" dateTime={dateObject.format(`YYYY-MM-DD`)}>
+            {dateObject.format(`MMMM DD, YYYY`)}
+          </time>
         </footer>
       </blockquote>
 

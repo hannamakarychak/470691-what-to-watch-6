@@ -17,3 +17,8 @@ export const allGenresSelector = createSelector(
   allMoviesSelector,
   (allMovies) => getUniqueGenres(allMovies)
 );
+
+export const favoriteMoviesSelector = createSelector(
+  allMoviesSelector,
+  (allMovies) => allMovies.filter((movie) => movie.is_favorite)
+);

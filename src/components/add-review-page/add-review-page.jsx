@@ -1,25 +1,55 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Link, useParams} from 'react-router-dom';
 
 import Header from '../header/header';
 import ReviewForm from '../review-form/review-form';
-import {addReview} from '../../api-actions';
+import {addReview, fetchFilm} from '../../api-actions';
 import {connect} from 'react-redux';
+import {
+  selectedMovieLoadedSelector,
+  selectedMovieNameSelector,
+  selectedMoviePosterImgSrcSelector,
+  selectedMovieBackgroundImgSrcSelector,
+  selectedMovieBackgroundColorSelector
+} from '../../store/selected-movie/selectors';
+import Spinner from '../spinner/spinner';
+import {reviewHasErrorSelector, reviewIsSendingSelector} from '../../store/reviews/selectors';
 
-const AddReviewPage = (props) => {
+const AddReviewPage = ({
+  onSubmit,
+  name,
+  imgSrc,
+  backgroundColor,
+  backgroundImgSrc,
+  isMovieLoaded,
+  onLoadMovie,
+  hasError,
+  isSending
+}) => {
   const params = useParams();
+  const currentMovieId = params.id;
+
+  useEffect(() => {
+    if (!isMovieLoaded) {
+      onLoadMovie(currentMovieId);
+    }
+  }, [currentMovieId, onLoadMovie, isMovieLoaded]);
+
+  if (!isMovieLoaded) {
+    return <Spinner />;
+  }
 
   const handleSubmitClick = (rating, review) => {
-    props.onSubmit(params.id, rating, review);
+    onSubmit(currentMovieId, rating, review);
   };
 
   return (
     <Fragment>
-      <section className="movie-card movie-card--full">
+      <section className="movie-card movie-card--full" style={{background: backgroundColor}} >
         <div className="movie-card__header">
           <div className="movie-card__bg">
-            <img src="img/bg-the-grand-budapest-hotel.jpg" alt={props.name} />
+            <img src={backgroundImgSrc} alt={name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -27,7 +57,7 @@ const AddReviewPage = (props) => {
             <nav className="breadcrumbs">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">
-                  <Link to={`/films/${params.id}`} className="breadcrumbs__link">{props.name}</Link>
+                  <Link to={`/films/${currentMovieId}`} className="breadcrumbs__link">{name}</Link>
                 </li>
                 <li className="breadcrumbs__item">
                   <a className="breadcrumbs__link">Add review</a>
@@ -37,11 +67,16 @@ const AddReviewPage = (props) => {
           </Header>
 
           <div className="movie-card__poster movie-card__poster--small">
-            <img src={props.imgSrc} alt={props.name} width="218" height="327" />
+            <img src={imgSrc} alt={name} width="218" height="327" />
           </div>
         </div>
 
-        <ReviewForm onSubmit={handleSubmitClick} />
+        <ReviewForm
+          onSubmit={handleSubmitClick}
+          backgroundColor={backgroundColor}
+          hasError={hasError}
+          isLoading={isSending}
+        />
 
       </section>
     </Fragment>
@@ -49,16 +84,36 @@ const AddReviewPage = (props) => {
 };
 
 AddReviewPage.propTypes = {
-  name: PropTypes.string.isRequired,
-  imgSrc: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func
+  name: PropTypes.string,
+  imgSrc: PropTypes.string,
+  onSubmit: PropTypes.func,
+  backgroundImgSrc: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  isMovieLoaded: PropTypes.bool.isRequired,
+  onLoadMovie: PropTypes.func.isRequired,
+  isSending: PropTypes.bool.isRequired,
+  hasError: PropTypes.bool.isRequired
 };
+
+const mapStateToProps = (state) => ({
+  isMovieLoaded: selectedMovieLoadedSelector(state),
+  name: selectedMovieNameSelector(state),
+  imgSrc: selectedMoviePosterImgSrcSelector(state),
+  backgroundImgSrc: selectedMovieBackgroundImgSrcSelector(state),
+  backgroundColor: selectedMovieBackgroundColorSelector(state),
+  isSending: reviewIsSendingSelector(state),
+  hasError: reviewHasErrorSelector(state)
+});
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit(movieId, rating, review) {
     dispatch(addReview(movieId, rating, review));
-  }
+  },
+
+  onLoadMovie(id) {
+    dispatch(fetchFilm(id));
+  },
 });
 
-export default connect(null, mapDispatchToProps)(AddReviewPage);
+export default connect(mapStateToProps, mapDispatchToProps)(AddReviewPage);
 

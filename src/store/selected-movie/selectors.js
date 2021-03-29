@@ -29,3 +29,18 @@ export const selectedMoviePreviewImgSrcSelector = createSelector(
   selectedMovieSelector,
   (movie) => movie ? movie.preview_image : null
 );
+
+export const selectedMoviePosterImgSrcSelector = createSelector(
+  selectedMovieSelector,
+  (movie) => movie ? movie.poster_image : null
+);
+
+export const selectedMovieBackgroundImgSrcSelector = createSelector(
+  selectedMovieSelector,
+  (movie) => movie ? movie.background_image : null
+);
+
+export const selectedMovieBackgroundColorSelector = createSelector(
+  selectedMovieSelector,
+  (movie) => movie ? movie.background_color : null
+);

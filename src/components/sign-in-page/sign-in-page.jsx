@@ -1,4 +1,4 @@
-import React, {Fragment, useRef} from 'react';
+import React, {Fragment, useRef, useState} from 'react';
 import {Redirect} from 'react-router';
 import PropTypes from "prop-types";
 import {connect} from 'react-redux';
@@ -6,19 +6,54 @@ import {connect} from 'react-redux';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import {login} from '../../api-actions';
-import {isUserLoggedInSelector} from '../../store/user/selectors';
+import {isUserLoggedInSelector, userAuthorizationHasErrorSelector} from '../../store/user/selectors';
+import classNames from 'classnames';
+import {isValidEmail} from '../../utils';
 
-const SignInPage = ({onSubmit, isLoggedIn}) => {
+const SignInPage = ({onSubmit, isLoggedIn, hasError}) => {
+  const [emailHasError, setEmailHasError] = useState(false);
+  const [passwordHasError, setPasswordHasError] = useState(false);
   const loginRef = useRef();
   const passwordRef = useRef();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    setEmailHasError(false);
+    setPasswordHasError(false);
+
+    const email = loginRef.current.value;
+    const password = passwordRef.current.value;
+
+    if (!email || !isValidEmail(email)) {
+      setEmailHasError(true);
+      return;
+    }
+
+    if (!password) {
+      setPasswordHasError(true);
+      return;
+    }
 
     onSubmit({
-      login: loginRef.current.value,
-      password: passwordRef.current.value
+      login: email,
+      password
     });
+  };
+
+  const getErrorMessage = () => {
+    if (hasError) {
+      return <p>We can’t recognize this email and password combination. Please try again.</p>;
+    }
+
+    if (emailHasError) {
+      return <p>Please enter a valid email address</p>;
+    }
+
+    if (passwordHasError) {
+      return <p>Password cannot be empty</p>;
+    }
+
+    return null;
   };
 
   if (isLoggedIn) {
@@ -34,19 +69,22 @@ const SignInPage = ({onSubmit, isLoggedIn}) => {
 
         <div className="sign-in user-page__content">
           <form action="#" className="sign-in__form" onSubmit={handleSubmit}>
+            <div className="sign-in__message">
+              {getErrorMessage()}
+            </div>
             <div className="sign-in__fields">
-              <div className="sign-in__field">
+              <div className={classNames(`sign-in__field`, {"sign-in__field--error": emailHasError})}>
                 <input
                   ref={loginRef}
                   className="sign-in__input"
-                  type="email"
+                  type="text"
                   placeholder="Email address"
                   name="user-email"
                   id="user-email"
                 />
                 <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
               </div>
-              <div className="sign-in__field">
+              <div className={classNames(`sign-in__field`, {"sign-in__field--error": passwordHasError})}>
                 <input
                   ref={passwordRef}
                   className="sign-in__input"
@@ -72,7 +110,8 @@ const SignInPage = ({onSubmit, isLoggedIn}) => {
 
 SignInPage.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
+  hasError: PropTypes.bool.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -82,7 +121,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  isLoggedIn: isUserLoggedInSelector(state)
+  isLoggedIn: isUserLoggedInSelector(state),
+  hasError: userAuthorizationHasErrorSelector(state)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignInPage);
