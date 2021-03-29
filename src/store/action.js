@@ -3,6 +3,7 @@ export const ActionType = {
   GET_ALL_MOVIES: `main/getAllMovies`,
   REQUIRED_AUTHORIZATION: `main/requiredAuthorization`,
   LOGGED_IN: `user/loggedIn`,
+  LOGGED_IN_FAIL: `user/loggedInFail`,
   REDIRECT_TO_ROUTE: `main/redirectToRoute`,
   GET_FILM: `main/getFilm`,
   GET_REVIEWS: `film/getReviews`,
@@ -32,6 +33,10 @@ export const loggedIn = (email, avatar) => ({
     email,
     avatar
   }
+});
+
+export const loggedInFail = () => ({
+  type: ActionType.LOGGED_IN_FAIL,
 });
 
 export const redirectToRoute = (url) => ({

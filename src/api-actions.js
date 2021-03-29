@@ -5,7 +5,8 @@ import {
   loggedIn,
   redirectToRoute,
   requireAuthorization,
-  setMovieFavorite
+  setMovieFavorite,
+  loggedInFail
 } from "./store/action";
 import {AuthorizationStatus} from "./constants";
 
@@ -29,6 +30,9 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
       dispatch(requireAuthorization(AuthorizationStatus.AUTH));
       dispatch(loggedIn(response.data.email, response.data.avatar_url));
       dispatch(redirectToRoute(`/`));
+    })
+    .catch(() => {
+      dispatch(loggedInFail());
     })
 );
 

@@ -11,3 +11,4 @@ export const isUserLoggedInSelector = createSelector(
   userAuthorizationStatusSelector,
   (authorizationStatus) => authorizationStatus === AuthorizationStatus.AUTH
 );
+export const userAuthorizationHasErrorSelector = (state) => state[NameSpace.USER].hasError;
