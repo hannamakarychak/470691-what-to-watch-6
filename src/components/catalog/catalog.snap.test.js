@@ -9,6 +9,7 @@ import Catalog from '../catalog/catalog';
 import {NameSpace} from '../../store/reducer';
 import {ALL_GENRES} from '../../constants';
 import {mockMovie} from '../../store/action.test';
+import {adaptMovieToClient} from '../../api-adapter';
 
 jest.mock(`../player/player.jsx`, () => () => `PlayerComponent`);
 
@@ -19,7 +20,7 @@ describe(`Should Catalog render correctly`, () => {
     const history = createMemoryHistory();
     const store = mockStore({
       [NameSpace.ALL_MOVIES]: {
-        list: [mockMovie],
+        list: [adaptMovieToClient(mockMovie)],
         genre: ALL_GENRES
       },
     });
@@ -38,7 +39,7 @@ describe(`Should Catalog render correctly`, () => {
     const store = mockStore({
       [NameSpace.ALL_MOVIES]: {
         list: new Array(9).fill().map((movie, i) => ({
-          ...mockMovie,
+          ...adaptMovieToClient(mockMovie),
           id: i
         })),
         genre: ALL_GENRES

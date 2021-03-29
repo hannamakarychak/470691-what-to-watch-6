@@ -12,6 +12,7 @@ import Spinner from '../spinner/spinner';
 import {allMoviesLoadedSelector} from '../../store/all-movies/selectors';
 import Catalog from './../catalog/catalog';
 import {selectedMovieLoadedSelector, selectedMovieSelector} from '../../store/selected-movie/selectors';
+import {isUserLoggedInSelector} from '../../store/user/selectors';
 
 const MainPage = ({
   promoMovie,
@@ -19,7 +20,8 @@ const MainPage = ({
   onLoadMoviesList,
   isPromoMovieLoaded,
   onLoadPromoMovie,
-  onSetFavorite
+  onSetFavorite,
+  isLoggedIn
 }) => {
   useEffect(() => {
     if (!isAllMoviesLoaded) {
@@ -39,7 +41,7 @@ const MainPage = ({
     <Fragment>
       <section className="movie-card">
         <div className="movie-card__bg">
-          <img src={promoMovie.background_image} alt={promoMovie.name} />
+          <img src={promoMovie.backgroundImage} alt={promoMovie.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -50,7 +52,7 @@ const MainPage = ({
           <div className="movie-card__info">
             <div className="movie-card__poster">
               <img
-                src={promoMovie.poster_image}
+                src={promoMovie.posterImage}
                 alt={`${promoMovie.name} poster`}
                 width="218"
                 height="327"
@@ -67,20 +69,19 @@ const MainPage = ({
               <div className="movie-card__buttons">
                 <Link
                   className="btn btn--play movie-card__button"
-                  to={{
-                    pathname: `/player/${promoMovie.id}`,
-                    isPromo: true
-                  }}
+                  to={`/player/${promoMovie.id}`}
                 >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </Link>
-                <FavoriteButton
-                  onClick={() => onSetFavorite(promoMovie.id, !promoMovie.is_favorite)}
-                  isFavorite={promoMovie.is_favorite}
-                />
+                {isLoggedIn &&
+                  <FavoriteButton
+                    onClick={() => onSetFavorite(promoMovie.id, !promoMovie.isFavorite)}
+                    isFavorite={promoMovie.isFavorite}
+                  />
+                }
               </div>
             </div>
           </div>
@@ -102,6 +103,7 @@ MainPage.propTypes = {
   isAllMoviesLoaded: PropTypes.bool.isRequired,
   onLoadMoviesList: PropTypes.func.isRequired,
   isPromoMovieLoaded: PropTypes.bool.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
   onLoadPromoMovie: PropTypes.func.isRequired,
   onSetFavorite: PropTypes.func.isRequired
 };
@@ -109,7 +111,8 @@ MainPage.propTypes = {
 const mapStateToProps = (state) => ({
   isAllMoviesLoaded: allMoviesLoadedSelector(state),
   isPromoMovieLoaded: selectedMovieLoadedSelector(state),
-  promoMovie: selectedMovieSelector(state)
+  promoMovie: selectedMovieSelector(state),
+  isLoggedIn: isUserLoggedInSelector(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -19,7 +19,7 @@ export const selectedMovie = (state = initialState, action) => {
         ...state,
         movie: {
           ...state.movie,
-          "is_favorite": action.payload.isFavorite
+          isFavorite: action.payload.isFavorite
         }
       };
 
